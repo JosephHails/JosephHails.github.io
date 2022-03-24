@@ -1,0 +1,145 @@
+<!DOCTYPE html><html lang="en"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content=""><title>语音频谱处理 | 嘲哳</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=0.0.0"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/normalize/8.0.1/normalize.min.css"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/pure/1.0.1/pure-min.css"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/pure/1.0.1/grids-responsive-min.css"><link rel="stylesheet" href="//lib.baomitu.com/font-awesome/4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//lib.baomitu.com/jquery/3.4.1/jquery.min.js"></script><link rel="icon" mask="" sizes="any" href="/favicon.ico"><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><link rel="alternate" type="application/atom+xml" href="/atom.xml"><script type="text/javascript" src="//lib.baomitu.com/clipboard.js/2.0.4/clipboard.min.js"></script><script type="text/javascript" src="//lib.baomitu.com/toastr.js/2.1.4/toastr.min.js"></script><link rel="stylesheet" href="//lib.baomitu.com/toastr.js/2.1.4/toastr.min.css"><meta name="generator" content="Hexo 4.2.1"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">语音频谱处理</h1><a id="logo" href="/.">嘲哳</a><p class="description">Joseph's Blog | PPLRDLL.</p></div><div id="nav-menu"><a class="current" href="/."><i class="fa fa-home"> Home</i></a><a href="/tag/"><i class="fa fa-tag"> Tag</i></a><a href="/archives/"><i class="fa fa-archive"> Archive</i></a><a href="/bookmark/"><i class="fa fa-bookmark"> Bookmark</i></a><a href="/timeline/"><i class="fa fa-hourglass"> Timeline</i></a><a href="/About/"><i class="fa fa-user"> About</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">语音频谱处理</h1><div class="post-meta">2020-05-10<span> | </span><span class="category"><a href="/categories/%E5%AD%A6%E6%9C%AF/">学术</a></span><span class="post-time"><span class="post-meta-item-text"> | </span><span class="post-meta-item-icon"><span class="count"></span><span class="post-count"> 1.9k</span><span class="post-meta-item-text"> Words</span></span></span><span class="post-time"> | <span class="post-meta-item-icon"><span class="time"></span><span class="post-count"> 8</span><span class="post-meta-item-text"> Minutes</span></span></span></div><a class="disqus-comment-count" href="/2020/scholar/course/DSP/%E8%AF%AD%E9%9F%B3%E9%A2%91%E8%B0%B1%E5%88%86%E6%9E%90/#vcomment"><span class="valine-comment-count" data-xid="/2020/scholar/course/DSP/%E8%AF%AD%E9%9F%B3%E9%A2%91%E8%B0%B1%E5%88%86%E6%9E%90/"></span><span> Comment</span></a><div class="clear"><div class="toc-article" id="toc"><div class="toc-title">Contents</div><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-广义叠加原理"><span class="toc-text">1. 广义叠加原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-卷积同态系统"><span class="toc-text">2. 卷积同态系统</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-复倒谱和倒谱"><span class="toc-text">3. 复倒谱和倒谱</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-复倒谱的计算方法"><span class="toc-text">4 复倒谱的计算方法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-微分法"><span class="toc-text">4.1 微分法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-最小相位信号法"><span class="toc-text">4.2 最小相位信号法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-语音信号的倒谱分析"><span class="toc-text">5. 语音信号的倒谱分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-基于听觉特征的MEL频率倒谱系数"><span class="toc-text">6. 基于听觉特征的MEL频率倒谱系数</span></a></li></ol></div></div><br><br><br><div class="post-content"><ul>
+<li>叠加原理</li>
+<li>卷积同态系统</li>
+<li>复倒谱和倒谱</li>
+<li>复倒谱的计算</li>
+<li>语音信号的倒谱分析</li>
+<li>计算 MFCC 系数<a id="more"></a>  
+</li>
+</ul>
+<h2 id="1-广义叠加原理"><a href="#1-广义叠加原理" class="headerlink" title="1. 广义叠加原理"></a>1. 广义叠加原理</h2><p>对于线性系统，使用卷积或者乘法代替线性系统的叠加原理，即：</p>
+<script type="math/tex; mode=display">H[x(n)]=H[x_1(n)*x_2(n)]=H[x_1(n)*x_2(n)]=y_1(n)*y_2(n)=y(n)</script><h2 id="2-卷积同态系统"><a href="#2-卷积同态系统" class="headerlink" title="2. 卷积同态系统"></a>2. 卷积同态系统</h2><p>卷积同态系统由三部分组成：</p>
+<ul>
+<li>特征系统：$D_*[]$</li>
+<li>线性系统：$L[]$</li>
+<li>逆特征系统：$D_*^{-1}[]$</li>
+</ul>
+<p><strong>$D_*[]$</strong><br>输入是若干信号的卷积，输出为若干信号的加法组合。有以下的特性</p>
+<script type="math/tex; mode=display">D_*[x(n)]=D_*[x_1(n)*x_2(n)]=D_*[x_1(n)]+D_*[x_2(n)]=\hat{x}_1(n)+\hat{x}_2(n)=\hat{x}(n)</script><p><strong>$L[]$</strong><br>服从叠加原理：</p>
+<script type="math/tex; mode=display">L[\hat{x}(n)]=L[\hat{x}_1(n)+\hat{x}_2(n)]=L[\hat{x}_1(n)]+L[\hat{x}_2(n)]=\hat{y}_1(n)+\hat{y}_2(n)=\hat{y}(n)</script><p><strong>$D_*^{-1}[]$</strong><br>变换回卷积组合：</p>
+<script type="math/tex; mode=display">D_*^{-1}[\hat{y}(n)]=y(n)</script><p>卷积同态的实现方法。利用 Z 变换，可以将卷积组合变为乘法，利用对数特性，将乘法组合变为加法，用此构成同态系统的特征系统$D_*[]$。其逆同态则是将取对数转化为指数运算。</p>
+<center>
+<img src="/images/Single/逆卷积.jpg" width="50%" height="50%" />
+</center>
+
+<p><strong>同态系统的用途</strong></p>
+<ul>
+<li>将二个信号通过卷积（或乘积）合成的信号分开，是一种非线性处理方法。</li>
+<li>对语音信号来说，同态处理的目的是将激励和声道分开，然后再分别进行研究<ul>
+<li>对激励进行研究，可以确定语音片段是清音、浊音及浊音的基音频率等特征</li>
+<li>对声道进行研究，可以确定声道特性及共振峰等特征</li>
+</ul>
+</li>
+</ul>
+<h2 id="3-复倒谱和倒谱"><a href="#3-复倒谱和倒谱" class="headerlink" title="3. 复倒谱和倒谱"></a>3. 复倒谱和倒谱</h2><p>设信号$x(n)$的 Z 变换为$X(z)$，其对数为$\hat{X}(z)=lnX(z)=ln[z[x(n)]]$。<br>那么$\hat{X}(z)$的逆变换为$\hat{x}(n)=z^{-1}[\hat{X}(z)]=z^{-1}[lnz[x(n)]]$</p>
+<p><strong>复对数的多值性问题</strong><br>在复倒谱分析中，Z 变换得到的是复数，所以取对数涉及复对数运算，存在相位多值性问题，称为<strong>相位卷绕</strong>。</p>
+<blockquote>
+<p>例如：对于a为正实数，b为负实数，$ln(ab)=ln(a|b|e^{jk\pi})=ln(a)+ln(|b|)+jk\pi$。</p>
+</blockquote>
+<p>在计算复倒谱时，应保证复对数函数的单值性，满足广义叠加原理，且要选定<strong>收敛域</strong>以保证逆 z 变换的唯一性。</p>
+<p><strong>注意</strong><br>在计算倒谱的情况下，信号经过同态处理的正、逆特征系统后，不能还原自身！因为此时只有幅值信息，丢掉了相位信息。对语音信号分析来说，因为人的听觉系统对频谱幅值敏感，对相位不敏感，所以倒谱分析可以用于语音信号。</p>
+<p>如果对$X(e^{jw})$的绝对值取对数，得</p>
+<script type="math/tex; mode=display">\hat{X}(e^{jw})=ln|X(e^{jw})|</script><p>求出的倒谱频称为<strong>实倒谱</strong>，即</p>
+<script type="math/tex; mode=display">c(n)=\frac{1}{2\pi}\int^{\pi}_{-\pi}ln|X(e^{jw})|e^{jwn}</script><h2 id="4-复倒谱的计算方法"><a href="#4-复倒谱的计算方法" class="headerlink" title="4 复倒谱的计算方法"></a>4 复倒谱的计算方法</h2><p>设信号为$x(n)=x_1(n)*x_2(n)$，<br>则其傅里叶变换：</p>
+<script type="math/tex; mode=display">X(e^{jw})=lnX_1(e^{jw})+lnX_2(e^{jw})</script><p>其幅度为：</p>
+<script type="math/tex; mode=display">ln|X(e^{jw})| =ln|X_1(e^{jw})|+ln|X_2(e^{jw})|</script><p>相位：</p>
+<script type="math/tex; mode=display">\phi(w)=\phi_1(w)+\phi_2(w)</script><p>这被称为相位缠绕。</p>
+<h3 id="4-1-微分法"><a href="#4-1-微分法" class="headerlink" title="4.1 微分法"></a>4.1 微分法</h3><p>信号$X(n)$和倒频谱$\hat{x}(n)$的计算方法：</p>
+<script type="math/tex; mode=display">j\frac{d}{dw}X(e^{jw})=\sum nx(n)e^{-jwn}</script><script type="math/tex; mode=display">j\frac{d}{dw}\hat{X}(e^{jw})=\sum n\hat{x}(n)e^{-jwn}</script><script type="math/tex; mode=display">\hat{X}(e^{jw})=lnX(e^{jw})</script><p>有：</p>
+<script type="math/tex; mode=display">
+    \begin{aligned}
+        j\frac{d}{dw}\hat{X}(e^{jw})
+        &= j\frac{d}{dw}[lnX(e^{jw})]\\
+        &= \frac{j\frac{d}{dw}[X(e^{jw})]}{X(e^{jw})}\\
+        &=\sum n\hat{x}(n)e^{-jwn}
+    \end{aligned}</script><center>
+<img src="/images/Single/int.jpg" width="50%" height="50%" />
+</center>
+
+<p>这样就避开了复对数运算。但<strong>缺点</strong>是，$nx(n)$的高频分量较$X(n)$更多，按照原采样频率进行分析回导致频率混叠问题。</p>
+<h3 id="4-2-最小相位信号法"><a href="#4-2-最小相位信号法" class="headerlink" title="4.2 最小相位信号法"></a>4.2 最小相位信号法</h3><p>被处理的信号$x(n)$是<strong>最小相位信号</strong>：Z 变换的全部几点和零点都位于 Z 平面单位元内部的信号，本质上是指具有<strong>最小相位延迟的序列信号</strong>。在实际应用中，许多信号是最小相位信号，或可以看作是最小相位信号。语音信号的模型就是极点都在 z 平面单位圆内的全极点模型，或者极零点都在 z 平面单位圆内的极零点模型。</p>
+<p>设$x(n)$为最小相位信号，则$\hat{x}(n)$为因果稳定序列。</p>
+<script type="math/tex; mode=display">\hat{x}(n)=\hat{x}_e(n)+\hat{x}_o(n)</script><script type="math/tex; mode=display">\hat{x}_e(n)=\frac{1}{2}[\hat{x}(n)+\hat{x}(-n)]</script><p>则有：</p>
+<script type="math/tex; mode=display">\Phi[\hat{x}_e(n)]=\frac{1}{2}[\hat{X}(e^{jw})+\hat{X}(e^{-jw})]=\hat{X}_R(e^{jw})</script><p>该式不包含相位信息。</p>
+<p><strong>注</strong>：原序列的实偶对称序列的傅里叶变换等于原序列的傅里叶变换的实部。</p>
+<script type="math/tex; mode=display">
+    \begin{aligned}
+        \hat{X}(e^(jw))
+        &= \hat{X}_R(e^{jw})+j\hat{X}_I(e^{jw})\\
+        &= ln|X(e^{jw})|+j{arg[X(e^{jw})]+2k\pi}\\
+    \end{aligned}</script><p>则$ln|X(e^{jw})| =\Phi[\hat{x}_e(n)]$。<br>又由于：$\hat{x}_e(n)=\frac{1}{2}[\hat{x}(n)+\hat{x}(-n)]$且$\hat{x}(n)$是一个因果序列，可得</p>
+<script type="math/tex; mode=display">
+    \hat{x}(n)=\left\{
+    \begin{aligned}
+    0,~~~n<0 \\
+    \hat{x}_e(n),~~~n=0\\
+    2\hat{x}_e(n), ~~~n>0
+    \end{aligned}
+    \right.</script><center>
+<img src="/images/min.jpg" width="50%" height="50%" />
+最小相位法求复倒谱原理
+</center>
+
+<h2 id="5-语音信号的倒谱分析"><a href="#5-语音信号的倒谱分析" class="headerlink" title="5. 语音信号的倒谱分析"></a>5. 语音信号的倒谱分析</h2><p>根据语音信号产生的线性模型，语音信号由激励信号与声道冲激响应<strong>卷积</strong>产生的，<strong>解卷积</strong>就是将卷积分量分开，可采用同态解卷积的方法。<br><figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">语音信号 -&gt; 同态解卷积分析 -&gt; 分离出激励信号和声道冲激信号相应</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>对声门激励信号进行分析，以判断浊音、清音以及浊音的基音频率</li>
+<li>对声道冲激响应进行分析，以判断声道特性及共振峰</li>
+</ul>
+<p><strong>5.1 声门激励信号的倒谱</strong><br>声门激励信号（浊音）：$e(n)=\sum_{r=0}^M\alpha_r\delta(n-rN_P)$<br>对其进行Z变换得：</p>
+<script type="math/tex; mode=display">E(z)=\alpha_0\Pi_{r=1}^M[1-\beta_r(z^{N_P})^{-1}]</script><p>* <strong>此处的$\beta 可以通过\alpha 求得$</strong></p>
+<script type="math/tex; mode=display">\hat{E}(z)=ln[E(z)]=ln\alpha_0-\sum_{r=1}^M[-\sum_{k=1}^{\infty}\frac{\beta_r^k}{k}(z^{N_P})^{-k}]</script><p>求 z 反变换获得倒谱：</p>
+<script type="math/tex; mode=display">\hat{e}(n)=loga_0\delta(n)+\sum_{k=1}^{\infty}\beta'_k\delta(n-kN_P)</script><p>一个周期冲激的有限长度序列，其倒谱也是<strong>周期冲激序列</strong>，且周期长度是$N_P$不变，只是信号长度成为无限长，振幅随 k 增加而衰减。当声门激励为浊音时，其倒谱只在$kN_P$诸点上不等于 0，其它均为零，那么第一个非零点和原点的距离就是<strong>基音周期</strong>。</p>
+<p><strong>5.2 声道冲激响应的倒谱</strong><br>用极零点模型描述声道响应，其 Z 变换如下：</p>
+<script type="math/tex; mode=display">X(z)=Az^{-r}\frac{\Pi^{M_i}_{k=1}(1-a_kz^{-1})\Pi_{k=1}^{M_o}(1-b_kz)}{\Pi^{N_i}_{k=1}(1-c_kz^{-1})\Pi_{k=1}^{N_o}(1-d_kz)}</script><p>a, c为单位圆内零极点；反之为单位圆外零极点。$z^{-r}$：序列相对于时间原点的延迟。<br>单位圆内的零极点形成复倒谱的右边；单位圆外的零极点形成复倒谱的左边；在原点的值取决于增益。复倒谱通常是双边的，且是比例因子为1/n的衰减指数之和。<br>$\hat{X}(z)$的复对数为：</p>
+<script type="math/tex; mode=display">\hat{X}(z)=ln(A)+ln(z^{-r})+\sum_{k=1}^{M_i}ln(1-a_kz^{-1})+\sum_{k=1}^{M_o}ln(1-b_kz^{-1})\\-\sum_{k=1}^{N_i}ln(1-c_kz^{-1})-\sum_{k=1}^{N_o}ln(1-d_kz^{-1})</script><p>我们希望上式逆 Z 变换是稳定序列，即绝对可求和，即使<strong>ROC</strong>包括单位圆。$\hat{X}(z)$的 RoC：</p>
+<center>
+<img src="/images/Single/Roc.jpg" width="50%" height="50%" />
+Roc
+</center>
+
+<p>其复倒谱：</p>
+<script type="math/tex; mode=display">
+    \hat{x}(n)=\left\{
+    \begin{aligned}
+    ln[A],~~~n=0 \\
+    \sum_{k=1}^{N_i}\frac{c_k^n}{n}-\sum_{k=1}^{M_i}\frac{a_k^n}{n},~~~n>0\\
+    \sum_{k=1}^{M_o}\frac{b_k^{-n}}{n}-\sum_{k=1}^{N_o}\frac{d_k^{-n}}{n}, ~~~n<0
+    \end{aligned}
+    \right.</script><h2 id="6-基于听觉特征的MEL频率倒谱系数"><a href="#6-基于听觉特征的MEL频率倒谱系数" class="headerlink" title="6. 基于听觉特征的MEL频率倒谱系数"></a>6. 基于听觉特征的MEL频率倒谱系数</h2><p>一种常用的语音特征：<strong>MFCC</strong> （mel frequency cepstrum coefficient）</p>
+<p>人耳能在嘈杂的环境中分辨各种声音 -&gt; 耳蜗起到重要作用 -&gt;耳蜗相当于滤波器组 -&gt;作用：在对数频率尺度上进行滤波 -&gt;对低频信号敏感。基于上述原理，得到类似与耳蜗的滤波器组：Mel 频率滤波器组。Mel 频率：$f_{mel}=2595\times log(1+f/700)$</p>
+<p><strong>MFCC 计算</strong>:</p>
+<ul>
+<li>分帧 -&gt; 预加重 -&gt; 加汉明窗 -&gt; 短时傅里叶变换 -&gt; 得到频谱；</li>
+<li>求频谱平方，即能量谱，用 M 个 Mel 带通滤波器进行滤波；</li>
+<li>对每个滤波器的输出取对数，得到相应频带的对数功率谱，并进行反离散馀弦变换，得到 L 个 MFCC 系数，一般 L 取 12 ~ 16 个左右。MFCC 系数为：<script type="math/tex; mode=display">C_n=\sum_{k=1}^Mlogx'(k)cos[\pi(l-0.5)n/M],~~~n=1, 2, ..., L</script></li>
+<li>将直接得到的 MFCC 特征作为静态特征，再做一阶和二阶差分，得到相应的动态特征。</li>
+</ul>
+</div><br><br><br><br><br><div class="tags"><a href="/tags/DSP/"><i class="fa fa-tag"></i>DSP</a></div><div class="post-nav"><a class="pre" href="/2020/essay/%E8%8F%9C%E8%B0%B1/%E7%95%AA%E8%8C%84%E7%82%92%E8%9B%8B/">番茄炒蛋</a><a class="next" href="/2020/essay/%E7%89%A9%E5%BF%97/%E7%9C%BC%E9%95%9C_%E7%89%A9%E5%BF%97%E9%93%AD/">致我的第一幅眼镜</a></div><div id="vcomment"></div><script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script><script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script><script>var notify = 'true' == 'true' ? true : false;
+var verify = 'false' == 'true' ? true : false;
+var GUEST_INFO = ['nick','mail','link'];
+var guest_info = 'nick'.split(',').filter(function(item){
+  return GUEST_INFO.indexOf(item) > -1
+});
+guest_info = guest_info.length == 0 ? GUEST_INFO :guest_info;
+window.valine = new Valine({
+  el:'#vcomment',
+  notify:notify,
+  verify:verify,
+  appId:'OUsbWlgeyMM30tsscwdtIca5-MdYXbMMI',
+  appKey:'UurECxSjfEQdvYhggt8KXW3w',
+  placeholder:'Anything',
+  avatar:'retro',
+  guest_info:guest_info,
+  pageSize:'10',
+  lang:'en'
+})
+</script></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><div class="search-form"><input id="local-search-input" placeholder="Search" type="text" name="q" results="0"/><div id="local-search-result"></div></div></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> Categories</i></div><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Draft/">Draft</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%AD%A6%E6%9C%AF/">学术</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%8A%80%E5%B7%A7/">技巧</a><span class="category-list-count">33</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9A%8F%E7%AC%94/">随笔</a><span class="category-list-count">66</span></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> Tags</i></div><div class="tagcloud"><a href="/tags/CV/" style="font-size: 15px;">CV</a> <a href="/tags/ML/" style="font-size: 15px;">ML</a> <a href="/tags/PyTorch/" style="font-size: 15px;">PyTorch</a> <a href="/tags/%E6%80%AA%E4%BA%8B%E8%AE%B0/" style="font-size: 15px;">怪事记</a> <a href="/tags/NLP/" style="font-size: 15px;">NLP</a> <a href="/tags/C/" style="font-size: 15px;">C++</a> <a href="/tags/App/" style="font-size: 15px;">App</a> <a href="/tags/%E5%AE%89%E5%88%A9/" style="font-size: 15px;">安利</a> <a href="/tags/Go/" style="font-size: 15px;">Go</a> <a href="/tags/Python/" style="font-size: 15px;">Python</a> <a href="/tags/Windows/" style="font-size: 15px;">Windows</a> <a href="/tags/Others/" style="font-size: 15px;">Others</a> <a href="/tags/%E8%84%9A%E6%9C%AC%E5%B7%A5%E5%85%B7/" style="font-size: 15px;">脚本工具</a> <a href="/tags/Paper/" style="font-size: 15px;">Paper</a> <a href="/tags/%E4%B9%A6%E4%BF%A1/" style="font-size: 15px;">书信</a> <a href="/tags/%E6%89%8B%E8%AE%B0/" style="font-size: 15px;">手记</a> <a href="/tags/%E6%9D%82%E8%AE%B0/" style="font-size: 15px;">杂记</a> <a href="/tags/%E8%A1%8C%E8%BF%B9/" style="font-size: 15px;">行迹</a> <a href="/tags/%E7%89%A9%E5%BF%97%E9%93%AD/" style="font-size: 15px;">物志铭</a> <a href="/tags/%E9%A3%9F%E8%B0%B1/" style="font-size: 15px;">食谱</a> <a href="/tags/%E8%A7%82%E6%84%9F/" style="font-size: 15px;">观感</a> <a href="/tags/Music/" style="font-size: 15px;">Music</a> <a href="/tags/%E9%9F%B3%E4%B9%90/" style="font-size: 15px;">音乐</a> <a href="/tags/%E8%AF%97%E6%AD%8C%EF%BC%9F/" style="font-size: 15px;">诗歌？</a> <a href="/tags/Hexo/" style="font-size: 15px;">Hexo</a> <a href="/tags/LaTeX/" style="font-size: 15px;">LaTeX</a> <a href="/tags/vscode/" style="font-size: 15px;">vscode</a> <a href="/tags/Linux/" style="font-size: 15px;">Linux</a> <a href="/tags/%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/" style="font-size: 15px;">体系结构</a> <a href="/tags/DSP/" style="font-size: 15px;">DSP</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> Recent</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2022/essay/%E6%9D%82%E8%AE%B0/%E6%9C%88%E8%90%BD%E6%97%A5%E5%8D%87/">月落日升</a></li><li class="post-list-item"><a class="post-list-link" href="/2022/tech/Obsidian/Obsidian%E6%8F%92%E4%BB%B6%E4%BD%BF%E7%94%A8/">Obsidian插件使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2022/tech/Obsidian/obsidian%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/">Obsidian使用指南</a></li><li class="post-list-item"><a class="post-list-link" href="/2022/essay/%E6%89%8B%E8%AE%B0/%E7%83%9F%E8%8A%B1/">烟花</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/essay/%E6%89%8B%E8%AE%B0/%E5%A4%9C%E6%B8%B8%E8%AE%B0/">夜游记</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/essay/%E9%A3%9F%E5%A0%82%E4%BA%8C%E6%A5%BC/">食堂二楼</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/essay/%E8%AF%97%E6%AD%8C/%E6%88%91%E5%BC%80%E5%A7%8B%E6%98%8E%E7%99%BD%E6%88%91%E8%87%AA%E5%B7%B1%EF%BC%8C%E6%88%91%E4%B8%8D%E5%AD%98%E5%9C%A8/">我开始明白我自己，我不存在</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/essay/%E6%9D%82%E8%AE%B0/Ha(r)sh%20dreams/">Ha(r)sh dreams</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/essay/%E6%9D%82%E8%AE%B0/%E5%90%83%E8%91%A1%E8%90%84%E4%B8%8D%E5%90%90%E8%91%A1%E8%90%84%E7%9A%AE/">吃葡萄不吐葡萄皮</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/essay/%E6%9D%82%E8%AE%B0/%E6%98%A5%E6%B1%9F%E8%8A%B1%E6%9C%9D%E7%A7%8B%E6%9C%88%E5%A4%9C/">春江花朝秋月夜</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/tech/Loqseq%20%E8%83%A1%E4%B9%B1%E4%BD%BF%E7%94%A8/">Loqseq 胡乱使用手册</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/essay/%E7%89%A9%E5%BF%97/Joseph's%20Surface%20Book%202/">Joseph's Surface Book 2</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/essay/%E6%9D%82%E8%AE%B0/%E8%B7%AF%E8%BE%B9%E9%A3%8E%E5%B0%98%E6%95%85%E4%BA%8B%EF%BC%88%E5%85%B6%E4%B8%89%EF%BC%89/">路边风尘故事（其三）</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-external-link"> Links</i></div><ul></ul><a href="https://github.com/Josep-h" title="GitHub" target="_blank">GitHub</a><ul></ul><a href="https://music.163.com/#/user/home?id=252635253" title="Music" target="_blank">Music</a><ul></ul><a href="https://space.bilibili.com/136778607/" title="Bilibili" target="_blank">Bilibili</a><ul></ul><a href="runpeng.xie@outlook.com" title="Mail" target="_blank">Mail</a><ul></ul><a href="https://blog.joseph-hails.site/atom.xml" title="RSS" target="_blank">RSS</a></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2022 <a href="/." rel="nofollow">嘲哳.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=0.0.0" async></script><script type="text/javascript" src="//lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=0.0.0" async></script><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css"><link rel="stylesheet" type="text/css" href="/css/search.css?v=0.0.0"><script type="text/javascript" src="/js/search.js?v=0.0.0"></script><script>var search_path = 'search.xml';
+if (search_path.length == 0) {
+   search_path = 'search.xml';
+}
+var path = '/' + search_path;
+searchFunc(path, 'local-search-input', 'local-search-result');
+</script><script type="text/javascript" src="/js/copycode.js" successtext="Copy Successed!"></script><link rel="stylesheet" type="text/css" href="/css/copycode.css"><script type="text/x-mathjax-config">MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+  });
+</script><script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML" async></script><script type="text/javascript" src="/js/codeblock-resizer.js?v=0.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=0.0.0"></script><!-- add calendar widget --></div></body></html>

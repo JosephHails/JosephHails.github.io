@@ -1,0 +1,310 @@
+<!DOCTYPE html><html lang="en"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content=""><title>第五章:存储系统 | 嘲哳</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=0.0.0"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/normalize/8.0.1/normalize.min.css"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/pure/1.0.1/pure-min.css"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/pure/1.0.1/grids-responsive-min.css"><link rel="stylesheet" href="//lib.baomitu.com/font-awesome/4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//lib.baomitu.com/jquery/3.4.1/jquery.min.js"></script><link rel="icon" mask="" sizes="any" href="/favicon.ico"><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><link rel="alternate" type="application/atom+xml" href="/atom.xml"><script type="text/javascript" src="//lib.baomitu.com/clipboard.js/2.0.4/clipboard.min.js"></script><script type="text/javascript" src="//lib.baomitu.com/toastr.js/2.1.4/toastr.min.js"></script><link rel="stylesheet" href="//lib.baomitu.com/toastr.js/2.1.4/toastr.min.css"><meta name="generator" content="Hexo 4.2.1"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">第五章:存储系统</h1><a id="logo" href="/.">嘲哳</a><p class="description">Joseph's Blog | PPLRDLL.</p></div><div id="nav-menu"><a class="current" href="/."><i class="fa fa-home"> Home</i></a><a href="/tag/"><i class="fa fa-tag"> Tag</i></a><a href="/archives/"><i class="fa fa-archive"> Archive</i></a><a href="/bookmark/"><i class="fa fa-bookmark"> Bookmark</i></a><a href="/timeline/"><i class="fa fa-hourglass"> Timeline</i></a><a href="/About/"><i class="fa fa-user"> About</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">第五章:存储系统</h1><div class="post-meta">2020-04-24<span> | </span><span class="category"><a href="/categories/%E5%AD%A6%E6%9C%AF/">学术</a></span><span class="post-time"><span class="post-meta-item-text"> | </span><span class="post-meta-item-icon"><span class="count"></span><span class="post-count"> 5.4k</span><span class="post-meta-item-text"> Words</span></span></span><span class="post-time"> | <span class="post-meta-item-icon"><span class="time"></span><span class="post-count"> 18</span><span class="post-meta-item-text"> Minutes</span></span></span></div><a class="disqus-comment-count" href="/2020/scholar/course/%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/Chap5_storage/#vcomment"><span class="valine-comment-count" data-xid="/2020/scholar/course/%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/Chap5_storage/"></span><span> Comment</span></a><div class="clear"><div class="toc-article" id="toc"><div class="toc-title">Contents</div><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#5-1-存储系统基础"><span class="toc-text">5.1 存储系统基础</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-2-Cache基础"><span class="toc-text">5.2 Cache基础</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-3-降低Cache不命中率"><span class="toc-text">5.3 降低Cache不命中率</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-4-降低Cache不命中开销"><span class="toc-text">5.4 降低Cache不命中开销</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-5-减少命中时间"><span class="toc-text">5.5 减少命中时间</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-6-并行主存系统"><span class="toc-text">5.6 并行主存系统</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-7-虚拟存储器"><span class="toc-text">5.7 虚拟存储器</span></a></li></ol></div></div><br><br><br><div class="post-content"><p>存储系统的大纲。主要内容是 Cache 的特性及优化。</p>
+<a id="more"></a>
+<h2 id="5-1-存储系统基础"><a href="#5-1-存储系统基础" class="headerlink" title="5.1 存储系统基础"></a>5.1 存储系统基础</h2><ol>
+<li>存储系统的层次结构<ol>
+<li>要求：容量大、速度快、价格低</li>
+<li>但是这三个要求相互矛盾</li>
+<li>解决办法：采用多种存储器技术，构成多级存储层次  <ol>
+<li>利用程序的局部性原理：时间局部性&amp;空间局部性</li>
+</ol>
+</li>
+<li>存储系统要达到的目标：整个存储系统的速度接近于最快的访问速度，而容量和单位价格接近于最大的存储器</li>
+</ol>
+</li>
+<li>性能参数<ol>
+<li>考虑两层存储层次<br>| $M_1$ | $S_1$（容量） | $T_1$（访问时间） | $C_1$（每单位价格） |<br>| ——- | ——————- | ————————- | —————————- |<br>| $M_2$ | $S_2$         | $T_2$             | $C_2$               |</li>
+<li>整个存储系统的容量即为第二级存储器的容量，即$S=S_2$。</li>
+<li>每单位价格$ C=\frac{C_1S_1+C_2S_2}{S_1+S_2} $。</li>
+<li>命中率<ol>
+<li>$ H=\frac{N_1}{N_1+N_2} $</li>
+<li>$ N_1 $：访问$ M_1 $的次数</li>
+</ol>
+</li>
+<li>平均访问时间$ T_A $<ol>
+<li>$ T_A=HT_1+(1-H)(T_1+T_M)=T_1+(1-H)T_M $</li>
+<li>不命中开销：$ T_M=T_2+T_B $。从向$M_2$发送访问请求到把整个数据块调入$M_1$所需的时间。</li>
+<li>传送信息块的时间：$ T_B $。</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>三级存储结构<ol>
+<li>三级存储系统<ol>
+<li>Cache</li>
+<li>主存储器</li>
+<li>磁盘存储器</li>
+</ol>
+</li>
+<li>“Cache-主存”层次和“主存-辅存”层次<ol>
+<li>前一个层次弥补速度不足，由硬件实现</li>
+<li>后一个层次弥补容量的不足，主要由软件实现</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+<h2 id="5-2-Cache基础"><a href="#5-2-Cache基础" class="headerlink" title="5.2 Cache基础"></a>5.2 Cache基础</h2><ol>
+<li>基本构造和原理<ol>
+<li>存储空间分割和地址计算</li>
+<li>Cache 和主存<ol>
+<li>Cache 是按照块进行管理的。其被分割为大小相同的块。</li>
+<li>主存块地址：用于查找该块在 Cache 中的位置。</li>
+<li>块内位移：用于确定数据在该块的位置。</li>
+<li>地址串 = 块地址|块内位移</li>
+</ol>
+</li>
+<li><img src="/images/Chap5-storage/cpuToCache.jpg" alt=""></li>
+</ol>
+</li>
+<li>映像规则<ol>
+<li>全相联<ol>
+<li>空间利用率最高、冲突概率最小、实现最复杂</li>
+</ol>
+</li>
+<li>直接映像：每一块只能放在 Cache 的一个位置<ol>
+<li>空间利用率低、冲突概率高、实现简单</li>
+</ol>
+</li>
+<li>组相联映像：分组<ol>
+<li>低位被称为索引（对应组相联的组数/直接映像的块大小）</li>
+<li>相联度 n</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>查找算法<ol>
+<li>确定 Cache 中有需要的块</li>
+<li>通过查找目录实现<ol>
+<li>目录表：<br><img src="/images/Chap5-storage/menu.jpg" alt=""></li>
+<li>并行查找：<ol>
+<li>相联存储器：根据查到的组内块地址，从 Cache 中读出一个发送给 CPU</li>
+<li>单体多姿存储器+比较器</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>容量：$Cache=2^{index}\times 相联度\times 块大小$</li>
+<li>过程<ol>
+<li>写缓冲器：如果在进行写入操作时，写缓冲器不满，则可以把数据及完整地址交给写缓冲器。</li>
+<li>读不命中：向 CPU 发送暂停信号，从下一级存储器调入数据块</li>
+</ol>
+</li>
+<li>替换算法<ol>
+<li>当新调入一块，而 Cache 又已被占满时，替换哪一块？</li>
+<li>主要替换算法：随机法；FIFO；LRU</li>
+<li>LRU 的实现：<ol>
+<li>堆栈法：用一个堆栈来记录组相联 Cache 的同一组中各块被访问的先后次序。<ol>
+<li>这个方法需要为每一个相联组准备一个小堆栈。</li>
+<li>该方法速度低成本高</li>
+</ol>
+</li>
+<li>比较对法<ol>
+<li>让块两两组合，每一个比较对用一个除法器的状态表示所相关的两个块最近一次被访问的远近次序。</li>
+<li>需要的硬件<ol>
+<li>与门，数量等同块数目</li>
+<li>触发器，和两两组合的比较对的数目相同 $=n(n-1) $</li>
+</ol>
+</li>
+<li>当组内块数较多时，可以使用多级状态位技术减少所需的硬件量。</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>写策略<ol>
+<li>写必须再确认命中之后才可以进行</li>
+<li>写操作可能导致 Cache 和主存内容不一致</li>
+<li>两种写策略：写直达法和写回法</li>
+<li>两种策略的比较：写回法地速度快，使用的存储器的带宽较低；写直达法易于实现、一致性好</li>
+<li>写直达法中，CPU 必须停顿，这个称为“CPU 写停顿”。（可以采用写缓冲器进行优化）</li>
+<li>写操作的调块：写时取，先把所写旦苑所在的块调入 Cache；绕写法，直接写入下一级存储而不调块</li>
+</ol>
+</li>
+<li>性能分析<ol>
+<li>不命中率：与硬件速度无关</li>
+<li>平均访存时间：平均访存时间 = 命中时间 + 不命中率 × 不命中开销</li>
+<li>程序执行时间：CPU 时间 = ( CPU 执行时间 + 存储器停顿周期数 ) × 时钟周期时间<ol>
+<li>存储器停顿周期数：“读”的次数 × 读不命中率 × 读不命中开销＋“写”的次数 × 写不命中率 × 写不命中开销</li>
+<li>存储器停顿周期数＝访存次数 × 不命中率 × 不命中开销</li>
+</ol>
+</li>
+<li>$CPI_{execution}$越低，固定周期数的 Cache 的不命中开销的相对影响就越大；在计算 CPI 时，不命中开销的单位是时钟周期数。因此，即使两台计算机的存储层次完全相同，时钟频率较高的 CPU 的不命中开销较大，其 CPI 中存储器停顿这部分也就较大。因此<strong>Cache 对于低 CPI、高时钟频率的 CPU 来说更加重要</strong>。</li>
+</ol>
+</li>
+<li>改进 Cache 的性能<ol>
+<li>平均访存时间 = 命中时间 + 不命中率 × 不命中开销</li>
+<li>从三个方面改进性能：降低不命中率；减少不命中开销；减少 Cache 命中时间</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+<h2 id="5-3-降低Cache不命中率"><a href="#5-3-降低Cache不命中率" class="headerlink" title="5.3 降低Cache不命中率"></a>5.3 降低Cache不命中率</h2><p>提高 Cache 性能的方法是降低不命中率。本节介绍 8 种降低不命中率的方法。需要降低不命中率的方法都会增加命中时间或者不命中开销。因此，使用时需要综合考虑。</p>
+<ol>
+<li>三种类型的不命中<ol>
+<li>强制不命中：第一次访问一个块，其不在 Cache 中。这种不命中称为冷启动不命中或访问不命中。</li>
+<li>容量不命中：执行程序所需要的所有块不能同时调入 Cache，在程序运行时需要被重复调用。</li>
+<li>冲突不命中：太多块映射到同一组，被重新访问的情况。</li>
+<li>相联度越高，冲突不命中就越少；强制不命中和容量不命中与相联度无关；强制性不命中与 Cache 容量大小无关</li>
+</ol>
+</li>
+<li>增加块的大小<ol>
+<li>增加块的大小：增加了空间局部性，减少了强制不命中；同时减少了 Cache 中块的数目，导致冲突不命中上升；会增加不命中开销</li>
+<li>当第二个作用超过第一个作用时，不命中率会上升</li>
+</ol>
+</li>
+<li>增加 Cache 容量：该方法会增加成本，并增加命中时间</li>
+<li>提高相联度<ol>
+<li>8 路相连和全相联一样有效，故超过 8 的方案实际意义不大</li>
+<li>2：1 经验规则：容量为 N 的直接映像 Cache 的不命中率和容量为 N/2 的两路相联的 Cache 的不命中率相似</li>
+</ol>
+</li>
+<li>伪相联 Cache<ol>
+<li>又称为列相联。获得多路相联的低不命中率，又能保持直接映像的命中速度。<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span> 先按直接相联的方式进行访问，如果命中则返回</span><br><span class="line">   <span class="number">2.</span> 如果不命中，则会检查另一个块上是否匹配</span><br><span class="line">      <span class="number">3.</span> 如果命中，则发生伪命中</span><br><span class="line">      <span class="number">4.</span> 如果不命中，则访问下一级存储器</span><br></pre></td></tr></table></figure></li>
+<li>如果许多时候，命中发生在伪命中，则速度会变慢。一种简单的方法是，发生伪命中时交换两个块的位置。</li>
+<li>这个方法会使 CPU 流水线设计复杂化，因此一般使用在离处理器较远的 Cache 上。</li>
+</ol>
+</li>
+<li>硬件预取<ol>
+<li>指令和数据都可以在处理器提出访问请求之前预取，可以将其放在 Cache 中或者放在访问速度较快的外部缓冲其中。</li>
+<li>指令预取：一般由 Cache 之外的硬件完成。在一次不命中时，取出相邻的两块指令数据。被请求指令返回时放入 Cache，而预取的指令则放入高速缓冲器。下一次 Cache 访问不命中时，则可能可以通过访问高速缓存器获得信息。</li>
+<li>预取建立在空闲带宽上。如果它影响了对于正常不命中的处理，则有可能会降低性能。可以利用编译器减少不必要的预取。</li>
+</ol>
+</li>
+<li>编译器控制的预取<ol>
+<li>它不是通过硬件预取，而是由编译器在程序中降入预取指令来实现的，这些指令在数据被用到之前，就将它们取到寄存器中去。</li>
+<li>分为：寄存器预取；Cache 预取。</li>
+<li>也可分为：故障性预取，如果出现虚地址故障或者违反保护权限，则会异常；非故障性预取，如果出现故障，则会放弃预取变为空操作</li>
+<li>预取不会改变指令和数值之间的逻辑关系。</li>
+<li>编译器预取的目的是要在执行指令和读取数据能重叠进行。循环是预取优化的对象。每一次预取需要消耗一次指令的开销。</li>
+</ol>
+</li>
+<li>编译优化<ol>
+<li>对于软件进行优化降低不命中率。这个方法的特点是不需要对硬件做出改动。</li>
+<li>程序代码和数据重组：<ol>
+<li>将程序中的过程重新排序，减少冲突不命中；将基本块对齐</li>
+<li>如果编译器知道分支指令很可能转移，则可以<ol>
+<li>将转移目标处的基本块和紧跟着该分支指令的基本块进行对调</li>
+<li>把该分支指令换为操作语义相反的分支指令</li>
+</ol>
+</li>
+<li>同时也可以对数据进行变换，例如调整顺序以改善空间局部性</li>
+<li>编译优化技术包括数组合并、内外循环交换。数组合并是将本来相互独立的多个数组合并为一个复合数组；循环融合是把独立的循环融合为单个的循环</li>
+</ol>
+</li>
+<li>内外循环交换：程序中包含的嵌套循环，并不是按照存储器中存储的顺序进行访问，这时需要交换嵌套关系。</li>
+<li>分块：提高时间局部性来减少不命中。在一次循环中既有对行的访问，也有对列的访问</li>
+</ol>
+</li>
+<li>牺牲 Cache：在 Cache 和下一级存储器的数据通路上增设全相联的小 Cache。这个 Cache 存储因为冲突被替换出去的块，当不命中发生时，在访问下一级存储器之前，先检查牺牲 Cache</li>
+</ol>
+<h2 id="5-4-降低Cache不命中开销"><a href="#5-4-降低Cache不命中开销" class="headerlink" title="5.4 降低Cache不命中开销"></a>5.4 降低Cache不命中开销</h2><p>随着技术的发展，Cache 不命中开销随时间不断增加。</p>
+<ol>
+<li>采用两级 Cache<ol>
+<li>本技术不会印象 CPU</li>
+<li>令第一级 Cache 和 CPU 的时钟周期匹配；第二级 Cache 足够大，能够捕捉大部分到达主存的访问</li>
+<li>平均访问时间公式：<br>$平均访存时间 = 命中时间<em>{L1}+不命中率</em>{L1} \times 不命中开销<em>{L1}$<br>$不命中开销</em>{L1} = 命中时间<em>{L2}+不命中率</em>{L2}\times 不命中开销<em>{L2}$<br>即，访存时间为$平均访存时间 = 命中时间</em>{L1}+不命中率<em>{L1}\times(命中时间</em>{L2}+不命中率<em>{L2} \times 不命中开销</em>{L2})$</li>
+<li>$局部不命中率=该级 Cache 的不命中次数/到达该级的访存次数$；$全局不命中率=该级 Cache 不命中次数/CPU 发出的访存次数$</li>
+<li>对于第二级 Cache，其命中次数小于第一级 Cache，所以其重点放在减少不命中次数上，导致了更大的容量、更高的相联度和更大的块大小；第二级 Cache 不会影响 CPU 的时钟频率，因此设计有更大的考虑空间。</li>
+</ol>
+</li>
+<li>读不命中优先<ol>
+<li>对于写直达，每一次访问需要对主存进行写入。为了提高性能，设置一个写缓冲器，但是这个操作会导致储存访问的复杂化，因为所读单元的最新值可能正在写入</li>
+<li>最简单方法是推迟对读不命中的处理，直至写缓冲器清空。而这个增加了读不命中的开销。</li>
+<li>另一种策略是，检查写缓冲器，如果没有冲突则继续访问</li>
+<li>对于写回 Cache 法，也可以利用写缓冲器。读不命中将替换一个修改过的储存块时，将被替换的块临时复制到一个缓冲器中，从存储器调块，再写入存储器</li>
+</ol>
+</li>
+<li>写缓冲合并：对于写缓冲器。在写缓冲器不为空的情况下，需要将这一次写入地址和写缓冲器中地址进行比较，寻找匹配项：如果有地址匹配而对应的位置是空闲的，则将要写入的数据和该项<strong>合并</strong>。</li>
+<li>请求字处理技术<br>本方法不用增加硬件。从存储器向 CPU 调入一块时，往往只有一个字是立刻需要的。请求字处理技术，就是着眼于这个特性，在 CPU 的请求的字到达后，CPU 不需要等待整个块调入，就将 CPU 重启并继续执行。有两种策略：<ol>
+<li>尽早重启动：一旦请求字到达，就立刻发送给 CPU，CPU 重启继续执行</li>
+<li>请求字优先：调块时先传递 CPU 需要的请求字，让 CPU 继续执行。<br>这个方法有效需要块相对大才能生效；以及下一个指令没有访问同一个块。</li>
+</ol>
+</li>
+<li>非阻塞 Cache 技术<br>Cache 在不命中时仍允许 CPU 进行其他的命中访问，能处理部分的访问，减少了实际不命中开销。</li>
+</ol>
+<h2 id="5-5-减少命中时间"><a href="#5-5-减少命中时间" class="headerlink" title="5.5 减少命中时间"></a>5.5 减少命中时间</h2><p>直接印象时钟频率的高低。</p>
+<ol>
+<li>容量小、结构简单的 Cache：硬件越简单，速度越快；应让 Cache 足够小，以便可以和 CPU 放在同一个芯片上。</li>
+<li>虚拟 Cache<br>采用虚拟存储器的计算机中，每一次访存都必须进行虚实转换，将 CPU 发出的虚地址转换为物理地址，这个一般是由存储部件 MMU 完成的。<br><strong>物理 Cache</strong>：使用物理地址访问的传统 Cache。其标识存储器中存储的是物理地址，地址检测使用的也是物理地址。CPU 需要访问时，先给出一个虚拟地址，由 MMU 转换为主存物理地址，再使用这个物理地址访问 Cache。<strong>缺点</strong>：地址转换和访问 Cache 是串行进行的，访问速度很慢。<br><strong>虚拟 Cache</strong>：可以直接用虚拟地址进行访问的 Cache，存储器中存储的是虚拟地址，检测的也是虚拟地址。当 CPU 访问存储器时，虚拟地址同时送给 MMU 和 Cache，Cache 找出相应的指令。如果 Cache 不命中，则需要 MMU 读出物理地址进行访问。虚拟 Cache 的优点是命中时不需要地址转换；并且不命中时也是并行的，速度更快。<br>但<strong>并不是</strong>所有的计算机都是用虚拟 Cache。其在进行切换时，需要清空 Cache，因为新进程的虚拟地址可能和原进程使用的地址相同。解决这个的方法可以是增加一个 PID，用于标识进程。在 PID 被重用的时候，仍然需要清空 Cache。<br>虚拟 Cache 没有流行的另一个原因。操作系统可能对一个物理地址有多种虚拟地址访问，这可能会导致虚拟 Cache 存在两个副本。</li>
+<li>虚拟索引-物理标识方法<br>优点：兼得虚拟 Cache 和物理 Cache 的好处。<br>局限性：直接映像 Cache 的容量不能超过页面的大小。$Cache 容量\le 页大小\times 相联度$<br>直接用虚地址内的页内位移作为访问 Cache 的索引，但标识是物理索引。CPU 在发出访存请求后，在进行虚实转换的同时，可以进行标识的读取。在完成地址转换以后再比较物理地址和标识。其局限性是为了实现大容量 Cache，又能使索引数比较少，可以采用提高相联度的方法。</li>
+<li>Cache 访问流水化：不能减少命中时间，但能增加带宽</li>
+<li>追踪 Cache：存放 CPU 执行的动态指令序列</li>
+</ol>
+<h2 id="5-6-并行主存系统"><a href="#5-6-并行主存系统" class="headerlink" title="5.6 并行主存系统"></a>5.6 并行主存系统</h2><p>主存的性能主要用<strong>延迟</strong>和<strong>带宽</strong>衡量。第二级 Cache 很大，对主存带宽有一定要求。并行主存系统就是<strong>一个访问周期内能并行访问多个存储字的存储器</strong>，其能有效提高存储器的带宽。<br>对于一个单字宽普通存储器，其字长与 CPU 字长相同，每一次只能访问一个存储字。设其访问周期是$T_M$，字长为$W$，其带宽为：</p>
+<script type="math/tex; mode=display">B_M=\frac{W}{T_M}</script><p>在相同器件条件下，为提高主存带宽，可以采用并行存储器结构：单体多字存储器和多体交叉存储器</p>
+<ol>
+<li>单体多字存储器。<ol>
+<li>对于一个单体 m 字存储器，该存储器可以在每个存储周期读出 m 个 CPU 字，将其带宽提升为原来的 m 倍。但是由于程序执行访问的数据具有一定的随机性，所以实际带宽比最大带宽小。</li>
+<li>优点是实现简单，确定是效率不高：<ol>
+<li>如果提出的指令含有分支指令，且分支成功，则有一部分指令是无效的</li>
+<li>当前指令所需要的多个操作数不一定在一个长存储字中</li>
+<li>必须凑齐 m 个数才一起写入存储器。如果只写个别的字，则需要把相应的长存储字取出，放到数据寄存器中，再修改一个字放回存储器</li>
+<li>如果独写数据在一个长存储字内时，读写操作无法在一个存储周期内完成</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>多体交叉存储器<ol>
+<li>多体存储器由多个单体存储器构成，每一个体有自己的地址寄存器等电路。</li>
+<li>设有 m 个体，每个体有 n 个存储单元。对于计算机使用者来说，存储器是按照顺序线性编址的，如何在二维矩阵和线性地址之间建立对应关系，就是多体存储器编址问题。</li>
+<li>有两种编址方法：高位交叉编址和低位交叉编址。低位交叉编址才能解决访问冲突问题。高位交叉编址能方便地扩展常规存储器的容量<ol>
+<li>高位交叉编址<ol>
+<li>对存储单元矩阵按列优先方式进行编址，即先给第 0 列的各单元按从上到下的顺序依次赋予地址，然后按第一列赋予地址。对于同一个体的高$log_2m$位都是相同的，这就是体号。</li>
+<li>对于第 i 行第 j 列，其地址为$A=j\times n+i$</li>
+</ol>
+</li>
+<li>低位交叉编址<ol>
+<li>先给第 0 行编码，然后从左到右赋予地址</li>
+<li>同一个体的低$log_2m$位是相同的，这是体号</li>
+<li>需要分时启动 m 个存储器。如果每个存储体的访问周期是$T_M$，则各个存储体的启动间隔是$t=T_M/m$。</li>
+<li>采用低位交叉访问能大幅度提高存储器的带宽。由于访问冲突，实际加速比小于 m</li>
+<li>$B=\frac{1-(1-\lambda)^m}{\lambda}$，$\lambda$为转移指令成功的概率。当$\lambda=1$时，并行多体交叉的实际带宽同单体单字并没有区别。由于数据的随机性，单纯依靠增大 m 来提高并行的带宽是有限的。对于标量运算，一般取$m\le8$</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>避免存储体冲突<ol>
+<li>体冲突：两个访问要求访问同一个存储体。</li>
+<li>解决这个问题的方法是采用许多体去减少体冲突的次数。体冲突问题可以通过硬件解决也可以通过软件解决。</li>
+<li>软件方法：循环优化法/拓展数组大小，使之不是 2 的幂次</li>
+<li>硬件方法：使体数为素数。体内地址为$地址<del>mod</del>存储体中字数$</li>
+</ol>
+</li>
+</ol>
+<h2 id="5-7-虚拟存储器"><a href="#5-7-虚拟存储器" class="headerlink" title="5.7 虚拟存储器"></a>5.7 虚拟存储器</h2><ol>
+<li>基本概念<br><strong>“主存-辅存”进一步发展的结果。</strong>由小主存储器和大的辅助存储器组成，在管理下像一个单一的、可以直接访问的大容量主存存储器。程序员可以使用地址码对整个程序进行编址，不需要考虑实际主存空间的大小。<br>虚拟存储器可以分为<strong>页式</strong>和<strong>段式</strong>。页式存储器把空间划分为<strong>大小相同</strong>的块，称为页面；段式把空间划分为<strong>可变长</strong>的块，称为段。此二者各有优劣。许多计算机采用段页式，每段被分为若干个页面。</li>
+<li>快速地址转换技术<br>页表放在主存中，每一次访存会引起两次访问，第一次是访问页表，以获得数据的物理地址；第二次是访问数据。这个效率是不可用的，一般采用翻译后备（TLB）解决这个问题。<br><strong>TLB</strong>是一个专用高速缓存器，用于存放近期经常使用的页表项。TLB 是页表部分内容的一个副本。只有在 TLB 不命中时才会进入主存页表查询。TLB 中的项由两部分组成：标识和数据。标识放的是虚地址的一部分，而数据部分存放的是物理页帧号、有效位、使用位等。操作系统需要保证 TLB 中没有该页表项的副本。</li>
+</ol>
+</div><br><br><br><br><br><div class="tags"><a href="/tags/%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/"><i class="fa fa-tag"></i>体系结构</a></div><div class="post-nav"><a class="pre" href="/2020/essay/%E6%B8%B8%E8%AE%B0/%E5%9D%A1%E5%8E%BF%E6%B8%B8/">简单的坡县游历</a><a class="next" href="/2020/essay/%E6%B8%B8%E8%AE%B0/%E5%86%B0%E4%B8%8A%E8%A1%8C/">冰上行</a></div><div id="vcomment"></div><script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script><script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script><script>var notify = 'true' == 'true' ? true : false;
+var verify = 'false' == 'true' ? true : false;
+var GUEST_INFO = ['nick','mail','link'];
+var guest_info = 'nick'.split(',').filter(function(item){
+  return GUEST_INFO.indexOf(item) > -1
+});
+guest_info = guest_info.length == 0 ? GUEST_INFO :guest_info;
+window.valine = new Valine({
+  el:'#vcomment',
+  notify:notify,
+  verify:verify,
+  appId:'OUsbWlgeyMM30tsscwdtIca5-MdYXbMMI',
+  appKey:'UurECxSjfEQdvYhggt8KXW3w',
+  placeholder:'Anything',
+  avatar:'retro',
+  guest_info:guest_info,
+  pageSize:'10',
+  lang:'en'
+})
+</script></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><div class="search-form"><input id="local-search-input" placeholder="Search" type="text" name="q" results="0"/><div id="local-search-result"></div></div></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> Categories</i></div><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Draft/">Draft</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%AD%A6%E6%9C%AF/">学术</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%8A%80%E5%B7%A7/">技巧</a><span class="category-list-count">33</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9A%8F%E7%AC%94/">随笔</a><span class="category-list-count">66</span></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> Tags</i></div><div class="tagcloud"><a href="/tags/CV/" style="font-size: 15px;">CV</a> <a href="/tags/ML/" style="font-size: 15px;">ML</a> <a href="/tags/PyTorch/" style="font-size: 15px;">PyTorch</a> <a href="/tags/%E6%80%AA%E4%BA%8B%E8%AE%B0/" style="font-size: 15px;">怪事记</a> <a href="/tags/NLP/" style="font-size: 15px;">NLP</a> <a href="/tags/C/" style="font-size: 15px;">C++</a> <a href="/tags/App/" style="font-size: 15px;">App</a> <a href="/tags/%E5%AE%89%E5%88%A9/" style="font-size: 15px;">安利</a> <a href="/tags/Go/" style="font-size: 15px;">Go</a> <a href="/tags/Python/" style="font-size: 15px;">Python</a> <a href="/tags/Windows/" style="font-size: 15px;">Windows</a> <a href="/tags/Others/" style="font-size: 15px;">Others</a> <a href="/tags/%E8%84%9A%E6%9C%AC%E5%B7%A5%E5%85%B7/" style="font-size: 15px;">脚本工具</a> <a href="/tags/Paper/" style="font-size: 15px;">Paper</a> <a href="/tags/%E4%B9%A6%E4%BF%A1/" style="font-size: 15px;">书信</a> <a href="/tags/%E6%89%8B%E8%AE%B0/" style="font-size: 15px;">手记</a> <a href="/tags/%E6%9D%82%E8%AE%B0/" style="font-size: 15px;">杂记</a> <a href="/tags/%E8%A1%8C%E8%BF%B9/" style="font-size: 15px;">行迹</a> <a href="/tags/%E7%89%A9%E5%BF%97%E9%93%AD/" style="font-size: 15px;">物志铭</a> <a href="/tags/%E9%A3%9F%E8%B0%B1/" style="font-size: 15px;">食谱</a> <a href="/tags/%E8%A7%82%E6%84%9F/" style="font-size: 15px;">观感</a> <a href="/tags/Music/" style="font-size: 15px;">Music</a> <a href="/tags/%E9%9F%B3%E4%B9%90/" style="font-size: 15px;">音乐</a> <a href="/tags/%E8%AF%97%E6%AD%8C%EF%BC%9F/" style="font-size: 15px;">诗歌？</a> <a href="/tags/Hexo/" style="font-size: 15px;">Hexo</a> <a href="/tags/LaTeX/" style="font-size: 15px;">LaTeX</a> <a href="/tags/vscode/" style="font-size: 15px;">vscode</a> <a href="/tags/Linux/" style="font-size: 15px;">Linux</a> <a href="/tags/%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/" style="font-size: 15px;">体系结构</a> <a href="/tags/DSP/" style="font-size: 15px;">DSP</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> Recent</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2022/essay/%E6%9D%82%E8%AE%B0/%E6%9C%88%E8%90%BD%E6%97%A5%E5%8D%87/">月落日升</a></li><li class="post-list-item"><a class="post-list-link" href="/2022/tech/Obsidian/Obsidian%E6%8F%92%E4%BB%B6%E4%BD%BF%E7%94%A8/">Obsidian插件使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2022/tech/Obsidian/obsidian%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/">Obsidian使用指南</a></li><li class="post-list-item"><a class="post-list-link" href="/2022/essay/%E6%89%8B%E8%AE%B0/%E7%83%9F%E8%8A%B1/">烟花</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/essay/%E6%89%8B%E8%AE%B0/%E5%A4%9C%E6%B8%B8%E8%AE%B0/">夜游记</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/essay/%E9%A3%9F%E5%A0%82%E4%BA%8C%E6%A5%BC/">食堂二楼</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/essay/%E8%AF%97%E6%AD%8C/%E6%88%91%E5%BC%80%E5%A7%8B%E6%98%8E%E7%99%BD%E6%88%91%E8%87%AA%E5%B7%B1%EF%BC%8C%E6%88%91%E4%B8%8D%E5%AD%98%E5%9C%A8/">我开始明白我自己，我不存在</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/essay/%E6%9D%82%E8%AE%B0/Ha(r)sh%20dreams/">Ha(r)sh dreams</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/essay/%E6%9D%82%E8%AE%B0/%E5%90%83%E8%91%A1%E8%90%84%E4%B8%8D%E5%90%90%E8%91%A1%E8%90%84%E7%9A%AE/">吃葡萄不吐葡萄皮</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/essay/%E6%9D%82%E8%AE%B0/%E6%98%A5%E6%B1%9F%E8%8A%B1%E6%9C%9D%E7%A7%8B%E6%9C%88%E5%A4%9C/">春江花朝秋月夜</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/tech/Loqseq%20%E8%83%A1%E4%B9%B1%E4%BD%BF%E7%94%A8/">Loqseq 胡乱使用手册</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/essay/%E7%89%A9%E5%BF%97/Joseph's%20Surface%20Book%202/">Joseph's Surface Book 2</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/essay/%E6%9D%82%E8%AE%B0/%E8%B7%AF%E8%BE%B9%E9%A3%8E%E5%B0%98%E6%95%85%E4%BA%8B%EF%BC%88%E5%85%B6%E4%B8%89%EF%BC%89/">路边风尘故事（其三）</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-external-link"> Links</i></div><ul></ul><a href="https://github.com/Josep-h" title="GitHub" target="_blank">GitHub</a><ul></ul><a href="https://music.163.com/#/user/home?id=252635253" title="Music" target="_blank">Music</a><ul></ul><a href="https://space.bilibili.com/136778607/" title="Bilibili" target="_blank">Bilibili</a><ul></ul><a href="runpeng.xie@outlook.com" title="Mail" target="_blank">Mail</a><ul></ul><a href="https://blog.joseph-hails.site/atom.xml" title="RSS" target="_blank">RSS</a></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2022 <a href="/." rel="nofollow">嘲哳.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=0.0.0" async></script><script type="text/javascript" src="//lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=0.0.0" async></script><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css"><link rel="stylesheet" type="text/css" href="/css/search.css?v=0.0.0"><script type="text/javascript" src="/js/search.js?v=0.0.0"></script><script>var search_path = 'search.xml';
+if (search_path.length == 0) {
+   search_path = 'search.xml';
+}
+var path = '/' + search_path;
+searchFunc(path, 'local-search-input', 'local-search-result');
+</script><script type="text/javascript" src="/js/copycode.js" successtext="Copy Successed!"></script><link rel="stylesheet" type="text/css" href="/css/copycode.css"><script type="text/x-mathjax-config">MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+  });
+</script><script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML" async></script><script type="text/javascript" src="/js/codeblock-resizer.js?v=0.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=0.0.0"></script><!-- add calendar widget --></div></body></html>

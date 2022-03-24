@@ -1,0 +1,175 @@
+<!DOCTYPE html><html lang="en"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content=""><title>Elementary OS双系统安装 | 嘲哳</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=0.0.0"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/normalize/8.0.1/normalize.min.css"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/pure/1.0.1/pure-min.css"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/pure/1.0.1/grids-responsive-min.css"><link rel="stylesheet" href="//lib.baomitu.com/font-awesome/4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//lib.baomitu.com/jquery/3.4.1/jquery.min.js"></script><link rel="icon" mask="" sizes="any" href="/favicon.ico"><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><link rel="alternate" type="application/atom+xml" href="/atom.xml"><script type="text/javascript" src="//lib.baomitu.com/clipboard.js/2.0.4/clipboard.min.js"></script><script type="text/javascript" src="//lib.baomitu.com/toastr.js/2.1.4/toastr.min.js"></script><link rel="stylesheet" href="//lib.baomitu.com/toastr.js/2.1.4/toastr.min.css"><meta name="generator" content="Hexo 4.2.1"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">Elementary OS双系统安装</h1><a id="logo" href="/.">嘲哳</a><p class="description">Joseph's Blog | PPLRDLL.</p></div><div id="nav-menu"><a class="current" href="/."><i class="fa fa-home"> Home</i></a><a href="/tag/"><i class="fa fa-tag"> Tag</i></a><a href="/archives/"><i class="fa fa-archive"> Archive</i></a><a href="/bookmark/"><i class="fa fa-bookmark"> Bookmark</i></a><a href="/timeline/"><i class="fa fa-hourglass"> Timeline</i></a><a href="/About/"><i class="fa fa-user"> About</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">Elementary OS双系统安装</h1><div class="post-meta">2020-09-22<span> | </span><span class="category"><a href="/categories/%E6%8A%80%E5%B7%A7/">技巧</a></span><span class="post-time"><span class="post-meta-item-text"> | </span><span class="post-meta-item-icon"><span class="count"></span><span class="post-count"> 3.1k</span><span class="post-meta-item-text"> Words</span></span></span><span class="post-time"> | <span class="post-meta-item-icon"><span class="time"></span><span class="post-count"> 11</span><span class="post-meta-item-text"> Minutes</span></span></span></div><a class="disqus-comment-count" href="/2020/tech/linux/Linux%E9%85%8D%E7%BD%AE/#vcomment"><span class="valine-comment-count" data-xid="/2020/tech/linux/Linux%E9%85%8D%E7%BD%AE/"></span><span> Comment</span></a><br><br><br><div class="post-content"><center>
+<img src="/images/screenshot/home.png" width="80%" height="80%" />
+</center>
+
+
+<p>这两日心血来潮给副系统装上了 Elementary OS。这一路配置相当地顺利，除了最后的一步。这里记录一下配置的过程及一些细节问题。</p>
+<a id="more"></a>  
+<h2 id="录制DD盘"><a href="#录制DD盘" class="headerlink" title="录制DD盘"></a>录制DD盘</h2><p>这次安装的是<a href="https://elementary.io" target="_blank" rel="noopener">Elementary OS 5.1</a>，基于 Ubuntu 18.04 的发行版。在原系统下，上官网拿到了 ISO 之后就可以利用<a href="https://rufus.ie" target="_blank" rel="noopener">rufus</a>将 ISO 烧制到 USB 中。这个也是安装双系统的常用软件了。将 ISO 读出后，选择 DD 模式烧制。烧制结束后准备工作结束。</p>
+<h2 id="安装系统"><a href="#安装系统" class="headerlink" title="安装系统"></a>安装系统</h2><p>安装系统过程非常流畅。插上烧制好的 USB，重启进入 USB 启动。可能这里会进入 Grub，而不是进入 USB。此时需要进入 Grub 中的 Configuration 将 USB 调整为最高优先级，然后重启。</p>
+<p>重启后会进入 Elementary 的安装引导。这一路没有特别需要注意的。最后需要提及的是关于分区部分。Elementary 自动识别出了之前在我的电脑上存在的 Ubuntu 19.04，于是默认选项是在该分区上使用新的系统对其进行覆盖。如果是新的双系统的话会需要重新选择分区。</p>
+<p>到目前为止都是非常顺畅。（请不要连接 WiFi，之后会有时间更新镜像后再 update。）</p>
+<h2 id="进入系统"><a href="#进入系统" class="headerlink" title="进入系统"></a>进入系统</h2><p>作为 Surface Book，安装双系统（或者说 Linux）系统，不能够开箱即用，有三个问题需要解决：</p>
+<ol>
+<li>Linux 会在后台挂起一个不知何物的进程，这个进程会始终占用 90%左右的 CPU。</li>
+<li>Linux 无法自动地在集成显卡和独立显卡间切换，导致耗电极快。</li>
+<li>由于 Surface 的高分屏，Grub 界面字体非常小（尽管 Elementary 内部的分辨率是完全正常的，包括登录界面。）</li>
+</ol>
+<p>为了方便，请现在这个时刻安装一个 vim 吧，后面会用上的。由于 vim 体积不大，完全可以先把换源的事情放在后面，基础设定要紧。</p>
+<h3 id="更换Kernel"><a href="#更换Kernel" class="headerlink" title="更换Kernel"></a>更换Kernel</h3><p>为解决第一个问题，需要更换 GitHub 上大神完成且预编的<a href="https://github.com/linux-surface/linux-surface" target="_blank" rel="noopener">Linux Kernel</a>。找到 Release，获取其中的三个内核文件并安装。</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">dpkg</span> -i <span class="regexp">*.deb</span></span><br></pre></td></tr></table></figure>
+<p>这样三个内核文件就安装好了。此时重启，在 Grub 界面中找到 Advanced Configuration 并选择 Surface Kernel 即可。</p>
+<p>这个步骤真的是被坑了很久才摸清楚的处理办法。对于其他的 Linux 来说，这个方法也是完全可以使用的。这个 Kernel 理论上提供了对于触摸屏、物理按键，甚至热插拔的特性，但大神预编的版本并不包含触摸屏功能。（但谁会想在 Linux 下拥有触摸屏呢……）所以预编的版本完全没有问题。</p>
+<p>自此那个恼人的后台在重启后就不会出现了。</p>
+<h3 id="安装显卡驱动"><a href="#安装显卡驱动" class="headerlink" title="安装显卡驱动"></a>安装显卡驱动</h3><p>这是选择 Ubuntu based Linux 的主要原因。之前使用 Manjaro 的时候，会发现这个步骤非常困难，但在 Ubuntu 下完全可以接受了。</p>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo ubuntu-drivers <span class="built_in">auto</span>install</span><br></pre></td></tr></table></figure>
+<p>默认的显卡驱动完全没有问题。上述命令运行结束后，显卡驱动就安装结束。为了完全切换为核显，需要先重启（否则软件内部是一片空白）。重启后，打开这个软件的 GUI 界面就正常了，切换一次设定，将之改为核显驱动，随后重启。双显卡问题就此解决。</p>
+<p>这个也是血泪教训。尽管网路上的冲浪人士宣称 Manjaro 或者 Arch 拥有更加方便的驱动配置，但对于我来说不是这样的。</p>
+<h3 id="Grub修改"><a href="#Grub修改" class="headerlink" title="Grub修改"></a>Grub修改</h3><p>Grub 修改完全可以和 Grub theme 的切换一起来完成了。先在<a href="https://www.gnome-look.org/browse/cat/109/order/latest/" target="_blank" rel="noopener">Gnome的主题站</a>上找到合适的 Grub 主题。我这次选择的是这个：<a href="https://www.gnome-look.org/p/1397139/" target="_blank" rel="noopener">Linux Mind</a>。说实话不好看，但是也懒得接着找了。</p>
+<p>将下载好的主题包解压，把他移动到一个特定的位置。为了方便我们先创建一个新的文件夹：</p>
+<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo <span class="keyword">mkdir</span> /<span class="keyword">boot</span>/grub/themes</span><br></pre></td></tr></table></figure>
+<p>然后把解压后的文件夹移入这个文件夹。</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo cp 主题包名 <span class="regexp">/boot/g</span>rub<span class="regexp">/themes/</span></span><br></pre></td></tr></table></figure>
+<p>然后修改配置文件：</p>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vim /etc/grub.d/<span class="number">00</span>_header</span><br></pre></td></tr></table></figure>
+<p>在最开始的注视内容之后添加：</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">GRUB_THEME</span>=<span class="string">"/boot/grub/themes/主题包名/theme.txt"</span></span><br><span class="line"><span class="attr">GRUB_GFXMODE</span>=<span class="string">"3000x2000x32"</span></span><br></pre></td></tr></table></figure>
+<p><code>3000x2999</code>是 Surface 的分辨率。这样修改结束后，主题和分辨率就都调整好了。然后更新 Grub 配置文件：</p>
+<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">sudo update-grub</span></span><br></pre></td></tr></table></figure>
+<p>更新结束后重启。这一个步骤就完成了。</p>
+<h2 id="后续"><a href="#后续" class="headerlink" title="后续"></a>后续</h2><p>但现在距离一个好用的系统还有不少的步骤……比如好用的浏览器，舒适的输入法等等。在这些开始之前需要先更换镜像。</p>
+<h3 id="apt换源"><a href="#apt换源" class="headerlink" title="apt换源"></a>apt换源</h3><p>进入文件：</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo <span class="keyword">vim</span> /etc/apt/sources.<span class="keyword">list</span></span><br></pre></td></tr></table></figure>
+<p>如果担心的话可以先做一个备份。然后用下面的内容替代该文件所有内容：</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">#清华源</span><br><span class="line"># 默认注释了源码镜像以提高 apt <span class="keyword">update</span> 速度，如有需要可自行取消注释</span><br><span class="line"><span class="keyword">deb</span> http<span class="variable">s:</span>//mirrors.tuna.tsinghua.edu.<span class="keyword">cn</span>/ubuntu/ focal main restricted universe multiverse</span><br><span class="line"># <span class="keyword">deb</span>-src http<span class="variable">s:</span>//mirrors.tuna.tsinghua.edu.<span class="keyword">cn</span>/ubuntu/ focal main restricted universe multiverse</span><br><span class="line"><span class="keyword">deb</span> http<span class="variable">s:</span>//mirrors.tuna.tsinghua.edu.<span class="keyword">cn</span>/ubuntu/ focal-updates main restricted universe multiverse</span><br><span class="line"># <span class="keyword">deb</span>-src http<span class="variable">s:</span>//mirrors.tuna.tsinghua.edu.<span class="keyword">cn</span>/ubuntu/ focal-updates main restricted universe multiverse</span><br><span class="line"><span class="keyword">deb</span> http<span class="variable">s:</span>//mirrors.tuna.tsinghua.edu.<span class="keyword">cn</span>/ubuntu/ focal-backports main restricted universe multiverse</span><br><span class="line"># <span class="keyword">deb</span>-src http<span class="variable">s:</span>//mirrors.tuna.tsinghua.edu.<span class="keyword">cn</span>/ubuntu/ focal-backports main restricted universe multiverse</span><br><span class="line"><span class="keyword">deb</span> http<span class="variable">s:</span>//mirrors.tuna.tsinghua.edu.<span class="keyword">cn</span>/ubuntu/ focal-security main restricted universe multiverse</span><br></pre></td></tr></table></figure>
+<p>保存退出就结束了。然后运行一下：</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-<span class="builtin-name">get</span> update</span><br><span class="line">sudo apt-<span class="builtin-name">get</span> upgrade</span><br></pre></td></tr></table></figure>
+<p>镜像工作至此结束。</p>
+<h3 id="更换输入法"><a href="#更换输入法" class="headerlink" title="更换输入法"></a>更换输入法</h3><p>类似 VS Code 或者 Vivaldi 啥的都非常简单，故不赘述。这里说一下输入法的问题。原配的 IBus 在 Ubuntu 下是能用的，但不知为何在 Elementary 下不能正常使用了。正好，那我换成 Fcitx 好咯。</p>
+<p><strong>注意</strong>：这里遇到了目前位置最为严重的 Bug。在执行这个操作以前，我可以进入”语言及区域“中的”键盘设定“处调整快捷键，但在该操作结束以后，该设定不再能被打开，并且在装回 iBus 后仍然处于不能使用状态。</p>
+<p>Anyway，输入还是重要的，所以为了避免冲突，卸载 iBus，然后下载 Fcitx。</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt <span class="keyword">install</span> fcitx fcitx-sunpinyin</span><br></pre></td></tr></table></figure>
+<p>为了使用 Fcitx，这俩就够了。后面一个软件提供中文输入支持。</p>
+<p>输入<code>im-config</code>设定 fcitx 为默认输入法，注销系统然后登入。</p>
+<p>此时在 Application 处搜索 Fcitx Configuration（注意，这个需要搜索，它不会出现在目录中。），然后设定 Sunpinyin 的相关设定。此时即使选择了双拼，但输入的时候看起来仍然是全拼。这个 bug 重启之后就解决了。</p>
+<p>然后是一些微调工作，比如将字体设定为 20 等等。</p>
+<h3 id="Grub-customizer"><a href="#Grub-customizer" class="headerlink" title="Grub customizer"></a>Grub customizer</h3><p>尽管我们已经成功地调整了 Grub 的分辨率以及 Theme，但目前 Grub menu 非常地令人难受。为了仅保留我们需要的选项，grub customizer 作为一个 GUI 工具是一个方便的选择。</p>
+<figure class="highlight smali"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo<span class="built_in"> add-apt-repository </span>ppa:danielrichter2007/grub-customizer</span><br><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install grub-customizer</span><br></pre></td></tr></table></figure>
+<p>后面的事情就比较直接了。</p>
+<h3 id="Fish-shell"><a href="#Fish-shell" class="headerlink" title="Fish shell"></a>Fish shell</h3><p>这个安装过很多次，应当轻车熟路了。</p>
+<p>首先上<a href="http://fishshell.com" target="_blank" rel="noopener">官网</a>添加 ppa。</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-<span class="built_in">add</span>-repository <span class="keyword">pp</span><span class="variable">a:fish</span>-<span class="keyword">shell</span>/release-<span class="number">3</span></span><br><span class="line">$ sudo apt-<span class="built_in">get</span> <span class="keyword">update</span></span><br><span class="line">$ sudo apt-<span class="built_in">get</span> install fish</span><br></pre></td></tr></table></figure>
+<p>安装结束后将 fish 设为默认：</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chsh -s <span class="regexp">/usr/</span>bin<span class="regexp">/fish</span></span><br></pre></td></tr></table></figure>
+<p>然后 Shell 默认会调起 fish，之后可以使用 bash 暂时回到默认的 shell。</p>
+<p>最后修改 fish 的 greeting messege：</p>
+<figure class="highlight gams"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">set</span> -U <span class="comment">fish_greeting</span> <span class="comment">"Bonjour! Joseph..."</span></span><br></pre></td></tr></table></figure>
+<p>Fish 的设置结束。更多设置，使用<code>fish_config</code>查看。</p>
+<p><strong>修改 ls 颜色</strong></p>
+<p>此外，由于 Terminal 默认的<code>ls</code>颜色比较难以接受，所以需要手动修改。而 fish 的方法和主流不太相同，这里做一下记录。</p>
+<p>首先需要获得系统的配色方案，在此基础上修改：</p>
+<figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">cd</span> ~</span><br><span class="line">dircolors -p &gt; <span class="string">.dircolors</span></span><br></pre></td></tr></table></figure>
+<p>这样配色方案就存放在文件<code>.dircolors</code>中，对这个文件进行修改即可。规则不一一列举，参见文后链接。为了让这个配色方案在 fish 中生效，需要修改 fish 的设定文件。该文件位置在：</p>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">~/.<span class="built_in">config</span>/fish/<span class="built_in">config</span>.fish</span><br></pre></td></tr></table></figure>
+<p>在该文件中添加：</p>
+<figure class="highlight perl"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">eval</span> (dircolors ~<span class="regexp">/.dircolors | head -n 1 | sed 's/</span>^LS_COLORS=<span class="regexp">/set -x LS_COLORS /</span>;<span class="regexp">s/;$//</span><span class="string">')</span></span><br></pre></td></tr></table></figure>
+<p>添加结束后重启 terminal 就可以了。</p>
+<h3 id="Autojump"><a href="#Autojump" class="headerlink" title="Autojump"></a>Autojump</h3><p>安装结束 Fish 之后，我们就可以开始配置 Autojump 了，虽然简单，但很有帮助。直接使用 apt 安装 Autojump 是不可以的。需要这样处理：</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git clone http<span class="variable">s:</span>//github.<span class="keyword">com</span>/wting/autojump.git</span><br><span class="line"><span class="keyword">cd</span> autojump</span><br><span class="line">./install.<span class="keyword">py</span></span><br></pre></td></tr></table></figure>
+<p>然后打开文件：<code>~/.config/fish/config.fish</code>，在其中添加：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">begin</span><br><span class="line">    <span class="built_in">set</span> --<span class="built_in">local</span> AUTOJUMP_PATH <span class="variable">$HOME</span>/.autojump/share/autojump/autojump.fish</span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">test</span> -e <span class="variable">$AUTOJUMP_PATH</span></span><br><span class="line">        <span class="built_in">source</span> <span class="variable">$AUTOJUMP_PATH</span></span><br><span class="line">    end</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+<p>然后关闭 Shell 再打开，设定就结束了。</p>
+<h3 id="按键重映射"><a href="#按键重映射" class="headerlink" title="按键重映射"></a>按键重映射</h3><p>按键重映射主要是为了让 Win 键代替右 Alt 键，让他发挥一点点小作用。这里需要用到工具 xmodmap。</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">xmodmap</span> -e <span class="string">"remove mod1 = Alt_R"</span></span><br><span class="line">xmodmap -e <span class="string">"add mod4 = Alt_R"</span></span><br></pre></td></tr></table></figure>
+<p>其中<code>mod1</code>代指 Alt 键，<code>mod4</code>代指 Super 键。具体的名称可以在后面链接中找到。但是这两个命令是临时的，在系统重启后就会消失。为了避免这个问题，我们需要设定开机自启。开机自启的方法很多，但是众多尝试都失败了。</p>
+<p>这里记录的方法依赖 Gnome 的设定。在 Application 中添加一个用来替换按键的脚本，然后就可以开机后运行了。</p>
+<h2 id="WeChat-amp-QQ"><a href="#WeChat-amp-QQ" class="headerlink" title="WeChat &amp; QQ"></a>WeChat &amp; QQ</h2><p>有的时候这俩软件还是相当必要的。这两个软件都需要 Wine 进行驱动。为了安装这两个软件，我们需要相当繁琐的设定。</p>
+<h3 id="安装Wine"><a href="#安装Wine" class="headerlink" title="安装Wine"></a>安装Wine</h3><p>先添加仓库：</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget -O- http<span class="variable">s:</span>//deepin-wine.i-<span class="keyword">m</span>.dev/setup.<span class="keyword">sh</span> | <span class="keyword">sh</span></span><br></pre></td></tr></table></figure>
+<p>然后安装对应的软件，表格如下：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>应用</th>
+<th>包名</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TIM</td>
+<td>deepin.com.qq.office</td>
+</tr>
+<tr>
+<td>QQ</td>
+<td>deepin.com.qq.im</td>
+</tr>
+<tr>
+<td>WeChat</td>
+<td>deepin.com.wechat</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>使用以下语句安装：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">sudo</span> <span class="selector-tag">apt-get</span> <span class="selector-tag">install</span> <span class="selector-tag">deepin</span><span class="selector-class">.com</span><span class="selector-class">.wechat</span></span><br></pre></td></tr></table></figure>
+<p>至此，两个软件都可以正常地运行，但存在三个问题：</p>
+<ol>
+<li>字体由于分辨率奇小无比。</li>
+<li>中文无法正常显示（因为我习惯用英文系统）。</li>
+<li>输入框字体不能正常显示（事实证明，这个原因和 2 中原因不一样。）</li>
+</ol>
+<h3 id="中文乱码"><a href="#中文乱码" class="headerlink" title="中文乱码"></a>中文乱码</h3><p>为了修正分辨率，我们需要 Wine 主体，但我们还没有安装。</p>
+<p>在安装好了 Wine 之后，我们就开始解决乱码问题。打开<code>/opt/deepinwine/tools/run.sh</code>和<code>/opt/deepinwine/tools/run_v2.sh</code>两个文件;将其中的<code>WINE_CMD=&quot;deepin-wine&quot;</code>改为<code>WINE_CMD=&quot;LC_ALL=zh_CN.UTF-8 deepin-wine&quot;</code>。这样就解决了中文乱码。</p>
+<p>事实上，将系统改为中文也能够解决这个问题，但，嗯……还是英文更好看一些。（以及一些翻译不合理以及不完全的位置让人觉得有点难受。）</p>
+<h3 id="输入框问题"><a href="#输入框问题" class="headerlink" title="输入框问题"></a>输入框问题</h3><p>即使解决了上述问题，微信的输入框仍然处于乱码的状态，这是由于缺少字体。为了解决这个问题，我们将 Windows 中的字体移植到 wine 容器中的 Fonts 文件夹中，这样这个问题就解决了。</p>
+<h3 id="分辨率"><a href="#分辨率" class="headerlink" title="分辨率"></a>分辨率</h3><p>以微信为例：</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">env</span> WINEPREFIX=<span class="string">"<span class="variable">$HOME</span>/.deepinwine/Deepin-WeChat"</span> winecfg</span><br></pre></td></tr></table></figure>
+<p>会打开一个 GUI 界面用以调整屏幕分辨率。该分辨率需要针对不同的软件分别设置。该数值调整为 192 较为合适。</p>
+<p><strong>注意</strong>：这个步骤应当先打开一次软件，待 Wine 容器初始化之后再进行，而不是在安装了软件之后立刻进行，否则不会有任何变化。</p>
+<p>至此微信和 QQ 的安装工作结束。但是目前没有完成系统托盘的修改。目前两个软件的小托盘图标会独立显示出来，这个问题放在以后调整吧。</p>
+<h2 id="Snapshot"><a href="#Snapshot" class="headerlink" title="Snapshot"></a>Snapshot</h2><p>Elementary 是优雅的，令人爱不释手的。在体验了一天的情况下，并没有出现令人难以理解、严重的 bug。其自带的日历、邮箱软件都充满了优雅的味道。整体的动画流畅舒适，快捷键分布自然高效。毫无疑问，这是一个满足了我目前基本需求的系统，我也愿意在短期内尝试将其作为主力使用去感受一下它的魅力。</p>
+<center>
+<img src="/images/screenshot/apps.png" width="100%" height="100%" />
+</center>
+
+
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
+<li><a href="https://blog.csdn.net/w84963568/article/details/78884003" target="_blank" rel="noopener">更换Grub主题</a></li>
+<li><a href="https://www.cnblogs.com/Briddle-ch/p/13369274.html" target="_blank" rel="noopener">在Ubuntu 18.04中安装Wine QQ、微信、TIM</a></li>
+<li><a href="https://blog.csdn.net/yhuiqq788/article/details/104211021" target="_blank" rel="noopener">Wine不能正常显示中文</a></li>
+<li><a href="https://stackoverflow.com/questions/13995857/suppress-or-customize-intro-message-in-fish-shell" target="_blank" rel="noopener">fish修改Greeting</a></li>
+<li><a href="https://www.jianshu.com/p/c405db78091c" target="_blank" rel="noopener">Wine分辨率调整</a></li>
+<li><a href="https://codeyarns.github.io/tech/2014-02-27-how-to-install-autojump-for-fish.html" target="_blank" rel="noopener">Autojump安装配置</a></li>
+<li><a href="https://www.cnblogs.com/yinheyi/p/10146900.html" target="_blank" rel="noopener">xmodmap按键重映射</a></li>
+<li><a href="https://blog.csdn.net/u013045749/article/details/53576868" target="_blank" rel="noopener">Ubuntu ls更改配色方案</a></li>
+</ul>
+</div><br><br><br><br><br><div class="tags"><a href="/tags/Linux/"><i class="fa fa-tag"></i>Linux</a></div><div class="post-nav"><a class="pre" href="/2020/essay/%E9%9F%B3%E4%B9%90/%E5%A4%B1%E8%A1%A1%E7%9A%84%E8%B4%9D%E5%A4%9A%E8%8A%AC/">失衡的贝多芬</a><a class="next" href="/2020/essay/%E9%9F%B3%E4%B9%90/%E5%91%8A%E5%88%AB/">论告别之声</a></div><div id="vcomment"></div><script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script><script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script><script>var notify = 'true' == 'true' ? true : false;
+var verify = 'false' == 'true' ? true : false;
+var GUEST_INFO = ['nick','mail','link'];
+var guest_info = 'nick'.split(',').filter(function(item){
+  return GUEST_INFO.indexOf(item) > -1
+});
+guest_info = guest_info.length == 0 ? GUEST_INFO :guest_info;
+window.valine = new Valine({
+  el:'#vcomment',
+  notify:notify,
+  verify:verify,
+  appId:'OUsbWlgeyMM30tsscwdtIca5-MdYXbMMI',
+  appKey:'UurECxSjfEQdvYhggt8KXW3w',
+  placeholder:'Anything',
+  avatar:'retro',
+  guest_info:guest_info,
+  pageSize:'10',
+  lang:'en'
+})
+</script></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><div class="search-form"><input id="local-search-input" placeholder="Search" type="text" name="q" results="0"/><div id="local-search-result"></div></div></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> Categories</i></div><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Draft/">Draft</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%AD%A6%E6%9C%AF/">学术</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%8A%80%E5%B7%A7/">技巧</a><span class="category-list-count">33</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9A%8F%E7%AC%94/">随笔</a><span class="category-list-count">66</span></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> Tags</i></div><div class="tagcloud"><a href="/tags/CV/" style="font-size: 15px;">CV</a> <a href="/tags/ML/" style="font-size: 15px;">ML</a> <a href="/tags/PyTorch/" style="font-size: 15px;">PyTorch</a> <a href="/tags/%E6%80%AA%E4%BA%8B%E8%AE%B0/" style="font-size: 15px;">怪事记</a> <a href="/tags/NLP/" style="font-size: 15px;">NLP</a> <a href="/tags/C/" style="font-size: 15px;">C++</a> <a href="/tags/App/" style="font-size: 15px;">App</a> <a href="/tags/%E5%AE%89%E5%88%A9/" style="font-size: 15px;">安利</a> <a href="/tags/Go/" style="font-size: 15px;">Go</a> <a href="/tags/Python/" style="font-size: 15px;">Python</a> <a href="/tags/Windows/" style="font-size: 15px;">Windows</a> <a href="/tags/Others/" style="font-size: 15px;">Others</a> <a href="/tags/%E8%84%9A%E6%9C%AC%E5%B7%A5%E5%85%B7/" style="font-size: 15px;">脚本工具</a> <a href="/tags/Paper/" style="font-size: 15px;">Paper</a> <a href="/tags/%E4%B9%A6%E4%BF%A1/" style="font-size: 15px;">书信</a> <a href="/tags/%E6%89%8B%E8%AE%B0/" style="font-size: 15px;">手记</a> <a href="/tags/%E6%9D%82%E8%AE%B0/" style="font-size: 15px;">杂记</a> <a href="/tags/%E8%A1%8C%E8%BF%B9/" style="font-size: 15px;">行迹</a> <a href="/tags/%E7%89%A9%E5%BF%97%E9%93%AD/" style="font-size: 15px;">物志铭</a> <a href="/tags/%E9%A3%9F%E8%B0%B1/" style="font-size: 15px;">食谱</a> <a href="/tags/%E8%A7%82%E6%84%9F/" style="font-size: 15px;">观感</a> <a href="/tags/Music/" style="font-size: 15px;">Music</a> <a href="/tags/%E9%9F%B3%E4%B9%90/" style="font-size: 15px;">音乐</a> <a href="/tags/%E8%AF%97%E6%AD%8C%EF%BC%9F/" style="font-size: 15px;">诗歌？</a> <a href="/tags/Hexo/" style="font-size: 15px;">Hexo</a> <a href="/tags/LaTeX/" style="font-size: 15px;">LaTeX</a> <a href="/tags/vscode/" style="font-size: 15px;">vscode</a> <a href="/tags/Linux/" style="font-size: 15px;">Linux</a> <a href="/tags/%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/" style="font-size: 15px;">体系结构</a> <a href="/tags/DSP/" style="font-size: 15px;">DSP</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> Recent</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2022/essay/%E6%9D%82%E8%AE%B0/%E6%9C%88%E8%90%BD%E6%97%A5%E5%8D%87/">月落日升</a></li><li class="post-list-item"><a class="post-list-link" href="/2022/tech/Obsidian/Obsidian%E6%8F%92%E4%BB%B6%E4%BD%BF%E7%94%A8/">Obsidian插件使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2022/tech/Obsidian/obsidian%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/">Obsidian使用指南</a></li><li class="post-list-item"><a class="post-list-link" href="/2022/essay/%E6%89%8B%E8%AE%B0/%E7%83%9F%E8%8A%B1/">烟花</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/essay/%E6%89%8B%E8%AE%B0/%E5%A4%9C%E6%B8%B8%E8%AE%B0/">夜游记</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/essay/%E9%A3%9F%E5%A0%82%E4%BA%8C%E6%A5%BC/">食堂二楼</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/essay/%E8%AF%97%E6%AD%8C/%E6%88%91%E5%BC%80%E5%A7%8B%E6%98%8E%E7%99%BD%E6%88%91%E8%87%AA%E5%B7%B1%EF%BC%8C%E6%88%91%E4%B8%8D%E5%AD%98%E5%9C%A8/">我开始明白我自己，我不存在</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/essay/%E6%9D%82%E8%AE%B0/Ha(r)sh%20dreams/">Ha(r)sh dreams</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/essay/%E6%9D%82%E8%AE%B0/%E5%90%83%E8%91%A1%E8%90%84%E4%B8%8D%E5%90%90%E8%91%A1%E8%90%84%E7%9A%AE/">吃葡萄不吐葡萄皮</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/essay/%E6%9D%82%E8%AE%B0/%E6%98%A5%E6%B1%9F%E8%8A%B1%E6%9C%9D%E7%A7%8B%E6%9C%88%E5%A4%9C/">春江花朝秋月夜</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/tech/Loqseq%20%E8%83%A1%E4%B9%B1%E4%BD%BF%E7%94%A8/">Loqseq 胡乱使用手册</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/essay/%E7%89%A9%E5%BF%97/Joseph's%20Surface%20Book%202/">Joseph's Surface Book 2</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/essay/%E6%9D%82%E8%AE%B0/%E8%B7%AF%E8%BE%B9%E9%A3%8E%E5%B0%98%E6%95%85%E4%BA%8B%EF%BC%88%E5%85%B6%E4%B8%89%EF%BC%89/">路边风尘故事（其三）</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-external-link"> Links</i></div><ul></ul><a href="https://github.com/Josep-h" title="GitHub" target="_blank">GitHub</a><ul></ul><a href="https://music.163.com/#/user/home?id=252635253" title="Music" target="_blank">Music</a><ul></ul><a href="https://space.bilibili.com/136778607/" title="Bilibili" target="_blank">Bilibili</a><ul></ul><a href="runpeng.xie@outlook.com" title="Mail" target="_blank">Mail</a><ul></ul><a href="https://blog.joseph-hails.site/atom.xml" title="RSS" target="_blank">RSS</a></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2022 <a href="/." rel="nofollow">嘲哳.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=0.0.0" async></script><script type="text/javascript" src="//lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=0.0.0" async></script><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css"><link rel="stylesheet" type="text/css" href="/css/search.css?v=0.0.0"><script type="text/javascript" src="/js/search.js?v=0.0.0"></script><script>var search_path = 'search.xml';
+if (search_path.length == 0) {
+   search_path = 'search.xml';
+}
+var path = '/' + search_path;
+searchFunc(path, 'local-search-input', 'local-search-result');
+</script><script type="text/javascript" src="/js/copycode.js" successtext="Copy Successed!"></script><link rel="stylesheet" type="text/css" href="/css/copycode.css"><script type="text/x-mathjax-config">MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+  });
+</script><script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML" async></script><script type="text/javascript" src="/js/codeblock-resizer.js?v=0.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=0.0.0"></script><!-- add calendar widget --></div></body></html>

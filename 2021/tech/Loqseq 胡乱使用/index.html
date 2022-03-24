@@ -1,0 +1,171 @@
+<!DOCTYPE html><html lang="en"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content=""><title>Loqseq 胡乱使用手册 | 嘲哳</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=0.0.0"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/normalize/8.0.1/normalize.min.css"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/pure/1.0.1/pure-min.css"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/pure/1.0.1/grids-responsive-min.css"><link rel="stylesheet" href="//lib.baomitu.com/font-awesome/4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//lib.baomitu.com/jquery/3.4.1/jquery.min.js"></script><link rel="icon" mask="" sizes="any" href="/favicon.ico"><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><link rel="alternate" type="application/atom+xml" href="/atom.xml"><script type="text/javascript" src="//lib.baomitu.com/clipboard.js/2.0.4/clipboard.min.js"></script><script type="text/javascript" src="//lib.baomitu.com/toastr.js/2.1.4/toastr.min.js"></script><link rel="stylesheet" href="//lib.baomitu.com/toastr.js/2.1.4/toastr.min.css"><meta name="generator" content="Hexo 4.2.1"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">Loqseq 胡乱使用手册</h1><a id="logo" href="/.">嘲哳</a><p class="description">Joseph's Blog | PPLRDLL.</p></div><div id="nav-menu"><a class="current" href="/."><i class="fa fa-home"> Home</i></a><a href="/tag/"><i class="fa fa-tag"> Tag</i></a><a href="/archives/"><i class="fa fa-archive"> Archive</i></a><a href="/bookmark/"><i class="fa fa-bookmark"> Bookmark</i></a><a href="/timeline/"><i class="fa fa-hourglass"> Timeline</i></a><a href="/About/"><i class="fa fa-user"> About</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">Loqseq 胡乱使用手册</h1><div class="post-meta">2021-09-04<span> | </span><span class="update"></span><span>2021-09-06</span><span> | </span><span class="update_ct"></span><span>1</span><span> | </span><span class="category"><a href="/categories/%E6%8A%80%E5%B7%A7/">技巧</a></span><span class="post-time"><span class="post-meta-item-text"> | </span><span class="post-meta-item-icon"><span class="count"></span><span class="post-count"> 1.9k</span><span class="post-meta-item-text"> Words</span></span></span><span class="post-time"> | <span class="post-meta-item-icon"><span class="time"></span><span class="post-count"> 6</span><span class="post-meta-item-text"> Minutes</span></span></span></div><a class="disqus-comment-count" href="/2021/tech/Loqseq%20%E8%83%A1%E4%B9%B1%E4%BD%BF%E7%94%A8/#vcomment"><span class="valine-comment-count" data-xid="/2021/tech/Loqseq%20%E8%83%A1%E4%B9%B1%E4%BD%BF%E7%94%A8/"></span><span> Comment</span></a><br><br><br><div class="post-content"><p>　　近日发现了一个好用的笔记工具 Loqseq，然而这个工具缺乏直观的指引，所有的功能大多藏在特殊的写法中。这里做一个简单的整理。由于使用的Markdown，后续所有解释的语法都是Markdown形式的。</p>
+<a id="more"></a>
+<h2 id="快捷键"><a href="#快捷键" class="headerlink" title="快捷键"></a>快捷键</h2><p>　　有几个重要的快捷键，默认的触发并不方便，这里列出来。</p>
+<ul>
+<li>在当前页面搜索，默认是 <code>Ctrl+u</code>，可以改成<code>Ctrl+f</code>，并没有冲突。</li>
+<li>向上移动块，可以改为<code>Alt+Up</code>。</li>
+<li>向下移动块，可以改为<code>Alt+Down</code>。</li>
+<li>和<code>Alt</code>相关的操作大多是控制文本的，例如<code>Alt+l</code>删除当前块。<code>Alt+a</code>移动到块头，<code>Alt+e</code>移动到块尾。</li>
+<li><code>Ctrl+Alt+p</code>，类似VSC自带的快捷命令，目前还没有多少功能，可以调整总体设置。</li>
+<li><code>Alt+Right</code>，进入聚焦，效果等价于点击每一个块前的小点，从而进入对于块的编辑。<code>Alt+Left</code>可以退出这一层。</li>
+<li><code>Ctrl+Shift+1</code>，快捷键列表中没有，打开git指令。</li>
+</ul>
+<h2 id="输入操作"><a href="#输入操作" class="headerlink" title="输入操作"></a>输入操作</h2><ul>
+<li><code>/</code> 可以调起菜单，选择下面创建的块类别，包括引用等。</li>
+<li><code>[[]]</code>可以创建一个引用到以框内名字为名的文章上，如果这个文章不存在，则会创建一篇新文章。</li>
+<li><code>(())</code>可以创建一个引用到以框内名字为名的块上。</li>
+<li>可以对选中的文本使用两次<code>Alt+(</code>或者<code>Alt+[</code>，可以直接包围选中文字并达到上述效果。</li>
+<li><code>#</code>可以创建一个标签，并在该页面中得到所有使用了该标签的页面，这个功能和在块或者页面性质中标注的<code>tags</code>是等价的。</li>
+<li><code>Ctrl+Enter</code>可以创建一个TODO标签，在其后写入内容之后回车，会创建一个新的的任务。所有创建的任务可以在页面<code>TODO</code>中找到。可以使用<code>/A</code>来表示优先级。可以使用命令<code>/Deadline</code>来创造一个DDL。或者为任务创造一个计划的时间：<code>/Scheduled</code>。上述两个命令都可以在创建后选择是否重复。对于任务，可以打开计时选项。</li>
+<li>Markdown的语法是完全的，即公式、引用等语法都是可用的。</li>
+<li><code>[A]([[B]])</code>可以为页面B创造一个名为A的链接，并显示A中的文本。对于块则为<code>[A](((B)))</code>。</li>
+<li>高级指令：除了使用<code>/</code>打开命令，也可以使用高级命令：<code>&lt;</code>。这个功能更多补齐了Markdown在Logseq中缺失的部分。例如：<ul>
+<li>Quote</li>
+<li>Src，展示多行代码</li>
+<li>Query，后面解释</li>
+<li>大型标记<ul>
+<li>Note</li>
+<li>Tip</li>
+<li>Important</li>
+<li>Caution</li>
+<li>Warning</li>
+</ul>
+</li>
+<li>Example （类似于多行注释，但会以文本形式展示）</li>
+<li>Center（居中显示）</li>
+<li>Verse （这个看起来没什么用）</li>
+<li>Comment （注释，只会在编辑当前块的时候出现）</li>
+<li>……</li>
+</ul>
+</li>
+</ul>
+<h2 id="页面"><a href="#页面" class="headerlink" title="页面"></a>页面</h2><ul>
+<li>对每一个块的点都可以右击打开功能选项。其中可以更改该块的背景色、获得该块的引用、或者在右侧栏打开该块。每一个块都可以生成一张卡片（但卡片看起来没什么用的样子）。</li>
+<li>别名（Alias）：一个替用的标题名字，可以在页面属性中增加<code>alias:: another_name1, another_name2</code>。</li>
+<li>性质<ul>
+<li>性质被用来标注一个页面或者一个块</li>
+<li>页性质是通过在页面的第一个块写入内容作为标注</li>
+<li>块性质是在块之外的另一个块标注完成的</li>
+<li>当一个性质的内容和一个已有标题的名字相同时，会生成一个到该页面的链接</li>
+<li>语法：<code>property:: value</code>（一定需要这个空格，并通过<code>Shift+Enter</code>制造的同块之内添加。）</li>
+<li>用途<ul>
+<li>选择特殊的块或者页面</li>
+<li>为事务提供相同的主题</li>
+</ul>
+</li>
+<li>特殊性质<ul>
+<li>tags</li>
+<li>template：声明这是一个模板页/块</li>
+<li>collapsed：声明这个块需不需要折叠</li>
+<li>alias：创造一个别名</li>
+<li>title：创造一个覆盖文件名的标题名</li>
+<li>created-at 及 updated-at</li>
+<li>parent：指向父节点</li>
+<li>public：在导出为Pages时的时候是否显示</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="模板"><a href="#模板" class="headerlink" title="模板"></a>模板</h2><ul>
+<li>页面和块都可以做成模板<ul>
+<li>右击块的生成模板，并命名</li>
+<li>或者在Properties中加上<code>template:: name</code></li>
+</ul>
+</li>
+<li>为了使用模板<ul>
+<li>输入<code>/template</code></li>
+</ul>
+</li>
+<li>可使用变量<ul>
+<li>使用   <code>&lt;%sth%&gt;</code> 语法调用</li>
+<li>today：引向近日的日记</li>
+<li>yesterday：昨天的日记</li>
+<li>tomorrow：明天的日记</li>
+<li>time：当前的时间</li>
+<li>Last Friday</li>
+<li>background-image：设置一个背景</li>
+<li>…</li>
+</ul>
+</li>
+</ul>
+<h2 id="PDF"><a href="#PDF" class="headerlink" title="PDF"></a>PDF</h2><p>　　选择这个软件的重要原因之一。</p>
+<ul>
+<li>可以在文件中插入PDF文件，通过<code>/asset</code>加入。</li>
+<li>可以高亮以上面方法插入的PDF。</li>
+<li>之后可以使用<code>(())</code>的方式引用高亮的部分。</li>
+<li>同样，也可以高亮区域，并可以复制引向该区域的ID，并使用<code>(())</code>的方式将其引用。引用之后，如同其他链接一样，点击链接会打开对应的PDF，并跳转到对应的段落。</li>
+<li>该PDf阅读器支持不同的颜色背景，并可以调出大纲。</li>
+</ul>
+<h2 id="查询（Query）"><a href="#查询（Query）" class="headerlink" title="查询（Query）"></a>查询（Query）</h2><ul>
+<li>简单查询：<code>{ {query } }</code>（两个大括号应该相邻，由于Hexo的Parser bug，不得不加了一个空格。）<ul>
+<li>需要在每一个括号之内的第一个声明这一层运算的类别，例如And或者Or。</li>
+<li><code>{ {and [[tag1]] [[tag2]]} }</code>：同时带有标签1和标签2的</li>
+<li><code>(not [[tag1]] [[tag2]])</code>：不是2者<ul>
+<li>e.g. <code>{ {query (and [[red]] [[yes]])} }</code>：搜索同时在标签中含有Yes和Red的<strong>页面</strong>。</li>
+<li>e.g. <code>{ {query (and (todo later) ((foobar)))} }</code>：搜索在带有todo标签，且为later，以及带有 <code>tag:: foobar</code> 的<strong>块</strong>。</li>
+</ul>
+</li>
+<li><code>(property A B)</code>：搜索带有property类别为A且其值为B的块。<ul>
+<li>e.g. <code>(property type book)</code>：搜索类别为书的块。</li>
+</ul>
+</li>
+<li><code>(page B)</code>：在页面A内搜索。<ul>
+<li>e.g. <code>(and (page &quot;B&quot;) ((foobar)))</code>：在页面B内搜索tag包含foobar的块。</li>
+</ul>
+</li>
+<li><code>(priority a)</code>：搜索priority为A的页面/块。</li>
+<li><code>(page-tags A)</code>：显示tags带有A的页面。</li>
+<li><code>(all-page-tags)</code>：显示所有的tag。</li>
+<li><code>sort-by key order</code> / <code>sort-by key</code><ul>
+<li>常用的Key：created-at, updated</li>
+<li>常用的Order：desc, asc</li>
+<li>e.g. <code>(and (todo now later) (sort-by created-at desc))</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>复杂查询<ul>
+<li>使用<code>{}</code>，以下是一个模板<figure class="highlight clojure"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;<span class="symbol">:title</span>  [<span class="symbol">:h2</span> <span class="string">"Your query title"</span>]</span><br><span class="line"> <span class="symbol">:query</span>  [<span class="symbol">:find</span> (<span class="name">pull</span> ?b [*])</span><br><span class="line">        <span class="symbol">:where</span> ...]</span><br><span class="line"> <span class="symbol">:inputs</span> [...]</span><br><span class="line"> <span class="symbol">:view</span>             (<span class="name"><span class="builtin-name">fn</span></span> [query-result] [<span class="symbol">:div</span> ...])</span><br><span class="line"> <span class="symbol">:result-transform</span> (<span class="name"><span class="builtin-name">fn</span></span> [query-result] ...)</span><br><span class="line"> <span class="symbol">:collapsed?</span> <span class="literal">true</span>&#125;</span><br></pre></td></tr></table></figure></li>
+<li>这个功能过于复杂，暂不展开</li>
+</ul>
+</li>
+</ul>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
+<li>图谱：图谱是通过引用自动创建的（这个其实才是这个笔记软件的核心功能，但是都是自动生成的，所以没什么需要单独介绍的）。</li>
+<li>导出：在需要导出的根页面点击导出。如果希望导出所有文章，就在该根页面的设置中选择，允许导出所有内容。在导出的附件中可以看到所有的Assets中包含的文章。导出的文件包可以完整地实现在编辑过程中看到的一切内容，但是形式变为只读的。</li>
+<li>演讲者模式：在一个文件右键三点，打开演讲者模式，可以逐个展示块。</li>
+<li>卡片：用来辅助记忆的一个功能。可以设置简单的问答，但似乎暂时用不到，故不展开。</li>
+<li>绘画：使用<code>/draw</code>指令来打开一个嵌入的画板。</li>
+<li>支持自定义主题，只需要将custom.css放入logseq得到子文件夹下。这是一系列<a href="https://github.com/logseq/awesome-logseq#css-themes" target="_blank" rel="noopener">主题</a>。</li>
+</ul>
+<p>　　这样才是对其文档进行了一遍整理，实际使用应该会有一定出入。如有更多问题/发现的新功能，请留在回复处。</p>
+</div><br><br><br><br><br><div class="tags"><a href="/tags/App/"><i class="fa fa-tag"></i>App</a><a href="/tags/%E5%AE%89%E5%88%A9/"><i class="fa fa-tag"></i>安利</a></div><div class="post-nav"><a class="pre" href="/2021/essay/%E6%9D%82%E8%AE%B0/%E6%98%A5%E6%B1%9F%E8%8A%B1%E6%9C%9D%E7%A7%8B%E6%9C%88%E5%A4%9C/">春江花朝秋月夜</a><a class="next" href="/2021/essay/%E7%89%A9%E5%BF%97/Joseph's%20Surface%20Book%202/">Joseph's Surface Book 2</a></div><div id="vcomment"></div><script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script><script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script><script>var notify = 'true' == 'true' ? true : false;
+var verify = 'false' == 'true' ? true : false;
+var GUEST_INFO = ['nick','mail','link'];
+var guest_info = 'nick'.split(',').filter(function(item){
+  return GUEST_INFO.indexOf(item) > -1
+});
+guest_info = guest_info.length == 0 ? GUEST_INFO :guest_info;
+window.valine = new Valine({
+  el:'#vcomment',
+  notify:notify,
+  verify:verify,
+  appId:'OUsbWlgeyMM30tsscwdtIca5-MdYXbMMI',
+  appKey:'UurECxSjfEQdvYhggt8KXW3w',
+  placeholder:'Anything',
+  avatar:'retro',
+  guest_info:guest_info,
+  pageSize:'10',
+  lang:'en'
+})
+</script></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><div class="search-form"><input id="local-search-input" placeholder="Search" type="text" name="q" results="0"/><div id="local-search-result"></div></div></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> Categories</i></div><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Draft/">Draft</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%AD%A6%E6%9C%AF/">学术</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%8A%80%E5%B7%A7/">技巧</a><span class="category-list-count">33</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E9%9A%8F%E7%AC%94/">随笔</a><span class="category-list-count">66</span></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> Tags</i></div><div class="tagcloud"><a href="/tags/CV/" style="font-size: 15px;">CV</a> <a href="/tags/ML/" style="font-size: 15px;">ML</a> <a href="/tags/PyTorch/" style="font-size: 15px;">PyTorch</a> <a href="/tags/%E6%80%AA%E4%BA%8B%E8%AE%B0/" style="font-size: 15px;">怪事记</a> <a href="/tags/NLP/" style="font-size: 15px;">NLP</a> <a href="/tags/C/" style="font-size: 15px;">C++</a> <a href="/tags/App/" style="font-size: 15px;">App</a> <a href="/tags/%E5%AE%89%E5%88%A9/" style="font-size: 15px;">安利</a> <a href="/tags/Go/" style="font-size: 15px;">Go</a> <a href="/tags/Python/" style="font-size: 15px;">Python</a> <a href="/tags/Windows/" style="font-size: 15px;">Windows</a> <a href="/tags/Others/" style="font-size: 15px;">Others</a> <a href="/tags/%E8%84%9A%E6%9C%AC%E5%B7%A5%E5%85%B7/" style="font-size: 15px;">脚本工具</a> <a href="/tags/Paper/" style="font-size: 15px;">Paper</a> <a href="/tags/%E4%B9%A6%E4%BF%A1/" style="font-size: 15px;">书信</a> <a href="/tags/%E6%89%8B%E8%AE%B0/" style="font-size: 15px;">手记</a> <a href="/tags/%E6%9D%82%E8%AE%B0/" style="font-size: 15px;">杂记</a> <a href="/tags/%E8%A1%8C%E8%BF%B9/" style="font-size: 15px;">行迹</a> <a href="/tags/%E7%89%A9%E5%BF%97%E9%93%AD/" style="font-size: 15px;">物志铭</a> <a href="/tags/%E9%A3%9F%E8%B0%B1/" style="font-size: 15px;">食谱</a> <a href="/tags/%E8%A7%82%E6%84%9F/" style="font-size: 15px;">观感</a> <a href="/tags/Music/" style="font-size: 15px;">Music</a> <a href="/tags/%E9%9F%B3%E4%B9%90/" style="font-size: 15px;">音乐</a> <a href="/tags/%E8%AF%97%E6%AD%8C%EF%BC%9F/" style="font-size: 15px;">诗歌？</a> <a href="/tags/Hexo/" style="font-size: 15px;">Hexo</a> <a href="/tags/LaTeX/" style="font-size: 15px;">LaTeX</a> <a href="/tags/vscode/" style="font-size: 15px;">vscode</a> <a href="/tags/Linux/" style="font-size: 15px;">Linux</a> <a href="/tags/%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/" style="font-size: 15px;">体系结构</a> <a href="/tags/DSP/" style="font-size: 15px;">DSP</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> Recent</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2022/essay/%E6%9D%82%E8%AE%B0/%E6%9C%88%E8%90%BD%E6%97%A5%E5%8D%87/">月落日升</a></li><li class="post-list-item"><a class="post-list-link" href="/2022/tech/Obsidian/Obsidian%E6%8F%92%E4%BB%B6%E4%BD%BF%E7%94%A8/">Obsidian插件使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2022/tech/Obsidian/obsidian%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/">Obsidian使用指南</a></li><li class="post-list-item"><a class="post-list-link" href="/2022/essay/%E6%89%8B%E8%AE%B0/%E7%83%9F%E8%8A%B1/">烟花</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/essay/%E6%89%8B%E8%AE%B0/%E5%A4%9C%E6%B8%B8%E8%AE%B0/">夜游记</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/essay/%E9%A3%9F%E5%A0%82%E4%BA%8C%E6%A5%BC/">食堂二楼</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/essay/%E8%AF%97%E6%AD%8C/%E6%88%91%E5%BC%80%E5%A7%8B%E6%98%8E%E7%99%BD%E6%88%91%E8%87%AA%E5%B7%B1%EF%BC%8C%E6%88%91%E4%B8%8D%E5%AD%98%E5%9C%A8/">我开始明白我自己，我不存在</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/essay/%E6%9D%82%E8%AE%B0/Ha(r)sh%20dreams/">Ha(r)sh dreams</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/essay/%E6%9D%82%E8%AE%B0/%E5%90%83%E8%91%A1%E8%90%84%E4%B8%8D%E5%90%90%E8%91%A1%E8%90%84%E7%9A%AE/">吃葡萄不吐葡萄皮</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/essay/%E6%9D%82%E8%AE%B0/%E6%98%A5%E6%B1%9F%E8%8A%B1%E6%9C%9D%E7%A7%8B%E6%9C%88%E5%A4%9C/">春江花朝秋月夜</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/tech/Loqseq%20%E8%83%A1%E4%B9%B1%E4%BD%BF%E7%94%A8/">Loqseq 胡乱使用手册</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/essay/%E7%89%A9%E5%BF%97/Joseph's%20Surface%20Book%202/">Joseph's Surface Book 2</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/essay/%E6%9D%82%E8%AE%B0/%E8%B7%AF%E8%BE%B9%E9%A3%8E%E5%B0%98%E6%95%85%E4%BA%8B%EF%BC%88%E5%85%B6%E4%B8%89%EF%BC%89/">路边风尘故事（其三）</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-external-link"> Links</i></div><ul></ul><a href="https://github.com/Josep-h" title="GitHub" target="_blank">GitHub</a><ul></ul><a href="https://music.163.com/#/user/home?id=252635253" title="Music" target="_blank">Music</a><ul></ul><a href="https://space.bilibili.com/136778607/" title="Bilibili" target="_blank">Bilibili</a><ul></ul><a href="runpeng.xie@outlook.com" title="Mail" target="_blank">Mail</a><ul></ul><a href="https://blog.joseph-hails.site/atom.xml" title="RSS" target="_blank">RSS</a></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2022 <a href="/." rel="nofollow">嘲哳.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=0.0.0" async></script><script type="text/javascript" src="//lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=0.0.0" async></script><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css"><link rel="stylesheet" type="text/css" href="/css/search.css?v=0.0.0"><script type="text/javascript" src="/js/search.js?v=0.0.0"></script><script>var search_path = 'search.xml';
+if (search_path.length == 0) {
+   search_path = 'search.xml';
+}
+var path = '/' + search_path;
+searchFunc(path, 'local-search-input', 'local-search-result');
+</script><script type="text/javascript" src="/js/copycode.js" successtext="Copy Successed!"></script><link rel="stylesheet" type="text/css" href="/css/copycode.css"><script type="text/x-mathjax-config">MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+  });
+</script><script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML" async></script><script type="text/javascript" src="/js/codeblock-resizer.js?v=0.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=0.0.0"></script><!-- add calendar widget --></div></body></html>
